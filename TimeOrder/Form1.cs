@@ -51,7 +51,11 @@ namespace TimeOrder
 
             if (rbServer.Checked)
             {
-                MessageBox.Show("Server mode selected\nUsername: " + username);
+                LobbyForm lobby = new LobbyForm(username, "", true);
+
+                this.Hide();
+                lobby.FormClosed += (s, args) => this.Close();
+                lobby.Show();
             }
             else if (rbClient.Checked)
             {
@@ -61,7 +65,11 @@ namespace TimeOrder
                     return;
                 }
 
-                MessageBox.Show("Client mode selected\nUsername: " + username + "\nIP: " + ipAddress);
+                LobbyForm lobby = new LobbyForm(username, ipAddress, false);
+
+                this.Hide();
+                lobby.FormClosed += (s, args) => this.Close();
+                lobby.Show();
             }
             else
             {
@@ -69,6 +77,6 @@ namespace TimeOrder
             }
         }
 
-        
+
     }
 }

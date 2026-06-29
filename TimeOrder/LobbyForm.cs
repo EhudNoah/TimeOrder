@@ -12,9 +12,17 @@ namespace TimeOrder
 {
     public partial class LobbyForm : Form
     {
-        public LobbyForm()
+        public LobbyForm(string username, string ip_address, bool isServer)
         {
             InitializeComponent();
+            if (isServer)
+            {
+                MessageBox.Show($"Lobby created successfuly");
+            }
+            else
+            {
+                MessageBox.Show($"Welcome to {username}'s Lobby");
+            }
         }
     }
 }
