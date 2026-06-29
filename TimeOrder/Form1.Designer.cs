@@ -51,9 +51,9 @@
             panelMain.Controls.Add(txtUsername);
             panelMain.Controls.Add(lblUsername);
             panelMain.Controls.Add(lblTitle);
-            panelMain.Location = new Point(12, 8);
+            panelMain.Location = new Point(0, 0);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(860, 541);
+            panelMain.Size = new Size(884, 561);
             panelMain.TabIndex = 0;
             // 
             // btnJoin
