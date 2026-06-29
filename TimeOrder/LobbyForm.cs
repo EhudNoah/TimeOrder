@@ -15,6 +15,7 @@ namespace TimeOrder
         private string _username;
         private string _ip_address;
         private bool _is_Server;
+        private Dictionary<string, bool> _playersReady = new Dictionary<string, bool>();
         public LobbyForm(string username, string ip_address, bool isServer)
         {
             InitializeComponent();
@@ -22,7 +23,11 @@ namespace TimeOrder
             _ip_address = ip_address;
             _is_Server = isServer;
             btnReady.Text = "Ready";
-            lblPlayer.Text = _username;
+            lblPlayer.Text = "Player 1 : " + _username;
+            _playersReady.Add(_username, false);
+            btnStart.Visible = false;
+
+
             if (isServer)
             {
                 MessageBox.Show($"Lobby created successfuly");
@@ -43,18 +48,31 @@ namespace TimeOrder
             {
                 btnReady.Text = "Unready";
                 btnReady.Enabled = true;
+                _playersReady[_username] = true;
+
             }
             else
             {
                 btnReady.Text = "Ready";
                 btnReady.Enabled = true;
+                _playersReady[_username] = false;
             }
-            }
-
-        private void btnReady_Check(object sender, EventArgs e)
-        {
-
+            UpdateStartButton();
         }
 
+
+        private void UpdateStartButton()
+        {
+            bool allPlayersReady = _playersReady.All(player => player.Value == true);
+
+            if (_is_Server && allPlayersReady)
+            {
+                btnStart.Visible = true;
+            }
+            else
+            {
+                btnStart.Visible = false;
+            }
+        }
     }
 }

@@ -32,15 +32,16 @@
             lblMode = new Label();
             lblPlayer = new Label();
             btnReady = new Button();
+            btnStart = new Button();
             SuspendLayout();
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.Font = new Font("Arial", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            lblTitle.Font = new Font("Arial", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             lblTitle.Location = new Point(420, 12);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(52, 17);
+            lblTitle.Size = new Size(57, 18);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Lobby";
             // 
@@ -57,15 +58,16 @@
             // lblPlayer
             // 
             lblPlayer.AutoSize = true;
+            lblPlayer.Font = new Font("Cascadia Code", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
             lblPlayer.Location = new Point(24, 119);
             lblPlayer.Name = "lblPlayer";
-            lblPlayer.Size = new Size(45, 15);
+            lblPlayer.Size = new Size(56, 16);
             lblPlayer.TabIndex = 2;
             lblPlayer.Text = "Player1";
             // 
             // btnReady
             // 
-            btnReady.Location = new Point(132, 111);
+            btnReady.Location = new Point(184, 116);
             btnReady.Name = "btnReady";
             btnReady.Size = new Size(75, 23);
             btnReady.TabIndex = 3;
@@ -73,12 +75,23 @@
             btnReady.UseVisualStyleBackColor = true;
             btnReady.Click += btnReady_Click;
             // 
+            // btnStart
+            // 
+            btnStart.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnStart.Location = new Point(383, 436);
+            btnStart.Name = "btnStart";
+            btnStart.Size = new Size(145, 38);
+            btnStart.TabIndex = 4;
+            btnStart.Text = "Start";
+            btnStart.UseVisualStyleBackColor = true;
+            // 
             // LobbyForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(248, 195, 96);
             ClientSize = new Size(868, 522);
+            Controls.Add(btnStart);
             Controls.Add(btnReady);
             Controls.Add(lblPlayer);
             Controls.Add(lblMode);
@@ -95,5 +108,6 @@
         private Label lblMode;
         private Label lblPlayer;
         private Button btnReady;
+        private Button btnStart;
     }
 }
