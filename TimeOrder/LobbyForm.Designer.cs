@@ -33,6 +33,8 @@
             lblPlayer = new Label();
             btnReady = new Button();
             btnStart = new Button();
+            lblIpLobby = new Label();
+            chkReady = new CheckBox();
             SuspendLayout();
             // 
             // lblTitle
@@ -85,12 +87,33 @@
             btnStart.Text = "Start";
             btnStart.UseVisualStyleBackColor = true;
             // 
+            // lblIpLobby
+            // 
+            lblIpLobby.AutoSize = true;
+            lblIpLobby.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            lblIpLobby.Location = new Point(24, 498);
+            lblIpLobby.Name = "lblIpLobby";
+            lblIpLobby.Size = new Size(62, 15);
+            lblIpLobby.TabIndex = 5;
+            lblIpLobby.Text = "Ip Address";
+            // 
+            // chkReady
+            // 
+            chkReady.AutoSize = true;
+            chkReady.Location = new Point(274, 121);
+            chkReady.Name = "chkReady";
+            chkReady.Size = new Size(15, 14);
+            chkReady.TabIndex = 6;
+            chkReady.UseVisualStyleBackColor = true;
+            // 
             // LobbyForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(248, 195, 96);
             ClientSize = new Size(868, 522);
+            Controls.Add(chkReady);
+            Controls.Add(lblIpLobby);
             Controls.Add(btnStart);
             Controls.Add(btnReady);
             Controls.Add(lblPlayer);
@@ -109,5 +132,7 @@
         private Label lblPlayer;
         private Button btnReady;
         private Button btnStart;
+        private Label lblIpLobby;
+        private CheckBox chkReady;
     }
 }

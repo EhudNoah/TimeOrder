@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,6 +27,7 @@ namespace TimeOrder
             lblPlayer.Text = "Player 1 : " + _username;
             _playersReady.Add(_username, false);
             btnStart.Visible = false;
+            chkReady.Checked = false;
 
 
             if (isServer)
@@ -39,6 +41,7 @@ namespace TimeOrder
                 MessageBox.Show($"Welcome to {username}'s Lobby");
                 lblTitle.Text = _username + "'s Lobby";
                 lblMode.Text = "Client Mode";
+                lblIpLobby.Text = "Ip Address: " + _ip_address.Trim();
             }
         }
 
@@ -49,6 +52,7 @@ namespace TimeOrder
                 btnReady.Text = "Unready";
                 btnReady.Enabled = true;
                 _playersReady[_username] = true;
+                chkReady.Checked = true;
 
             }
             else
@@ -56,6 +60,7 @@ namespace TimeOrder
                 btnReady.Text = "Ready";
                 btnReady.Enabled = true;
                 _playersReady[_username] = false;
+                chkReady.Checked = false;   
             }
             UpdateStartButton();
         }
@@ -74,5 +79,6 @@ namespace TimeOrder
                 btnStart.Visible = false;
             }
         }
+
     }
 }

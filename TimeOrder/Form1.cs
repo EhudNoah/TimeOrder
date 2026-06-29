@@ -19,12 +19,14 @@ namespace TimeOrder
             {
                 txtIpAddress.Text = "";
                 txtIpAddress.Enabled = false;
+                txtIpAddress.Text = "192.168.001.001";
                 btnJoin.Text = "Start";
             }
             else
             {
                 txtIpAddress.Enabled = true;
                 btnJoin.Text = "Join";
+                txtIpAddress.Text = "   .   .   .   ";
             }
         }
 
@@ -41,7 +43,7 @@ namespace TimeOrder
         private void btnJoin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
-            string ipAddress = txtIpAddress.Text.Trim();
+            string ipAddress = txtIpAddress.Text.Trim().Replace(" ", "");
 
             if (username == "")
             {
@@ -65,6 +67,12 @@ namespace TimeOrder
                     return;
                 }
 
+                if (!IsValidIpAddress(ipAddress))
+                {
+                    MessageBox.Show("Please enter a valid IP address like 192.168.001.001");
+                    return;
+                }
+
                 LobbyForm lobby = new LobbyForm(username, ipAddress, false);
 
                 this.Hide();
@@ -75,6 +83,35 @@ namespace TimeOrder
             {
                 MessageBox.Show("Please select Server mode or Client mode.");
             }
+        }
+        public bool IsValidIpAddress(string ipAddress)
+        {
+            string[] parts = ipAddress.Split('.');
+
+            if (parts.Length != 4)
+            {
+                return false;
+            }
+
+            foreach (string part in parts)
+            {
+                if (part.Length != 3)
+                {
+                    return false;
+                }
+
+                if (!int.TryParse(part, out int number))
+                {
+                    return false;
+                }
+
+                if (number < 0 || number > 255)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
 
