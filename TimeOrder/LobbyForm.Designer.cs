@@ -86,6 +86,7 @@
             btnStart.TabIndex = 4;
             btnStart.Text = "Start";
             btnStart.UseVisualStyleBackColor = true;
+            btnStart.Click += btnStart_Click;
             // 
             // lblIpLobby
             // 

@@ -8,6 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace TimeOrder
 {
@@ -39,7 +40,7 @@ namespace TimeOrder
             else
             {
                 MessageBox.Show($"Welcome to {username}'s Lobby");
-                   lblTitle.Text = _username + "'s Lobby";
+                lblTitle.Text = _username + "'s Lobby";
                 lblMode.Text = "Client Mode";
                 lblIpLobby.Text = "Ip Address: " + _ip_address.Trim();
             }
@@ -60,7 +61,7 @@ namespace TimeOrder
                 btnReady.Text = "Ready";
                 btnReady.Enabled = true;
                 _playersReady[_username] = false;
-                chkReady.Checked = false;   
+                chkReady.Checked = false;
             }
             UpdateStartButton();
         }
@@ -80,5 +81,15 @@ namespace TimeOrder
             }
         }
 
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            Card Einstein = new Card(1, "Einstein", "Person", "1879", "1955", " Il publie sa théorie de la relativité restreinte en 1905 et sa théorie de la gravitation, dite relativité générale, en 1915.", "D:\\.NET C#\\Images\\Albert_Einstein.jpg", false);
+
+            Gameplay test = new Gameplay();
+
+            this.Hide();
+            test.FormClosed += (s, args) => this.Close();
+            test.Show();
+        }
     }
 }
