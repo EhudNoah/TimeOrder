@@ -39,7 +39,7 @@ namespace TimeOrder
             else
             {
                 MessageBox.Show($"Welcome to {username}'s Lobby");
-                lblTitle.Text = _username + "'s Lobby";
+                   lblTitle.Text = _username + "'s Lobby";
                 lblMode.Text = "Client Mode";
                 lblIpLobby.Text = "Ip Address: " + _ip_address.Trim();
             }
