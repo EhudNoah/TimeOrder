@@ -28,18 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
+            pnlBottom = new Panel();
+            pnlSlot1 = new Panel();
+            pnlBottom.SuspendLayout();
             SuspendLayout();
+            // 
+            // pnlBottom
+            // 
+            pnlBottom.BackColor = Color.Silver;
+            pnlBottom.Controls.Add(pnlSlot1);
+            pnlBottom.Dock = DockStyle.Bottom;
+            pnlBottom.Location = new Point(0, 383);
+            pnlBottom.Name = "pnlBottom";
+            pnlBottom.Size = new Size(868, 139);
+            pnlBottom.TabIndex = 0;
+            // 
+            // pnlSlot1
+            // 
+            pnlSlot1.BackColor = Color.FromArgb(255, 224, 192);
+            pnlSlot1.BorderStyle = BorderStyle.FixedSingle;
+            pnlSlot1.Location = new Point(60, 15);
+            pnlSlot1.Name = "pnlSlot1";
+            pnlSlot1.Size = new Size(180, 100);
+            pnlSlot1.TabIndex = 0;
             // 
             // Gameplay
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(868, 522);
+            Controls.Add(pnlBottom);
             Name = "Gameplay";
             Text = "Gameplay";
+            pnlBottom.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Panel pnlBottom;
+        private Panel pnlSlot1;
     }
 }

@@ -91,7 +91,7 @@ namespace TimeOrder
                 "1955",
                 "Il publie sa théorie de la relativité restreinte en 1905 et sa théorie de la gravitation, dite relativité générale, en 1915.",
                 @"D:\.NET C#\Images\Albert_Einstein.jpg",
-                true
+                false
             );
 
             Gameplay test = new Gameplay(Einstein);

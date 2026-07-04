@@ -8,6 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace TimeOrder
 {
@@ -19,7 +20,7 @@ namespace TimeOrder
         {
             InitializeComponent();
             _card = card;
-            DisplayCard(_card);
+            DisplaySmallCard(_card, pnlSlot1);
         }
 
         public void DisplayCard(Card card)
@@ -87,6 +88,59 @@ namespace TimeOrder
             panelCard.Controls.Add(lblDescription);
 
             this.Controls.Add(panelCard);
+        }
+        public void DisplaySmallCard(Card card, Panel slot)
+        {
+            slot.Controls.Clear();
+
+            Panel panelCard = new Panel();
+            panelCard.Dock = DockStyle.Fill;
+            panelCard.BackColor = Color.White;
+            panelCard.BorderStyle = BorderStyle.FixedSingle;
+
+            PictureBox picture = new PictureBox();
+            picture.Size = new Size(slot.Width - 20, 45);
+            picture.Location = new Point(10, 5);
+            picture.SizeMode = PictureBoxSizeMode.Zoom;
+
+            if (File.Exists(card.ImagePath))
+            {
+                picture.Image = Image.FromFile(card.ImagePath);
+            }
+            else
+            {
+                MessageBox.Show("Image introuvable : " + card.ImagePath);
+            }
+
+            Label lblName = new Label();
+            lblName.Text = card.Name;
+            lblName.Location = new Point(5, 52);
+            lblName.Size = new Size(slot.Width - 10, 20);
+            lblName.Font = new Font("Arial", 8, FontStyle.Bold);
+            lblName.TextAlign = ContentAlignment.MiddleCenter;
+
+            Label lblDate = new Label();
+            lblDate.Location = new Point(5, 72);
+            lblDate.Size = new Size(slot.Width - 10, 18);
+            lblDate.Font = new Font("Arial", 8, FontStyle.Regular);
+            lblDate.TextAlign = ContentAlignment.MiddleCenter;
+
+            switch (card.IsDateVisible)
+            {
+                case true:
+                    lblDate.Text = card.Date_Birth + " - " + card.Date_Death;
+                    break;
+
+                case false:
+                    lblDate.Text = "???? - ????";
+                    break;
+            }
+
+            panelCard.Controls.Add(picture);
+            panelCard.Controls.Add(lblName);
+            panelCard.Controls.Add(lblDate);
+
+            slot.Controls.Add(panelCard);
         }
     }
 }
