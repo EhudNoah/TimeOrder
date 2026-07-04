@@ -83,9 +83,18 @@ namespace TimeOrder
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            Card Einstein = new Card(1, "Einstein", "Person", "1879", "1955", " Il publie sa théorie de la relativité restreinte en 1905 et sa théorie de la gravitation, dite relativité générale, en 1915.", "D:\\.NET C#\\Images\\Albert_Einstein.jpg", false);
+            Card Einstein = new Card(
+                1,
+                "Einstein",
+                "Person",
+                "1879",
+                "1955",
+                "Il publie sa théorie de la relativité restreinte en 1905 et sa théorie de la gravitation, dite relativité générale, en 1915.",
+                @"D:\.NET C#\Images\Albert_Einstein.jpg",
+                false
+            );
 
-            Gameplay test = new Gameplay();
+            Gameplay test = new Gameplay(Einstein);
 
             this.Hide();
             test.FormClosed += (s, args) => this.Close();
