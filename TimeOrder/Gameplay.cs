@@ -25,7 +25,7 @@ namespace TimeOrder
         public void DisplayCard(Card card)
         {
             Panel panelCard = new Panel();
-            panelCard.Size = new Size(250, 350);
+            panelCard.Size = new Size(250, 400);
             panelCard.Location = new Point(275, 50);
             panelCard.BackColor = Color.White;
             panelCard.BorderStyle = BorderStyle.FixedSingle;
@@ -57,14 +57,33 @@ namespace TimeOrder
             lblType.Size = new Size(200, 25);
             lblType.TextAlign = ContentAlignment.MiddleCenter;
 
+            Label lblDate = new Label();
+            lblDate.Location = new Point(25, 245);
+            lblDate.Size = new Size(200, 25);
+            lblDate.TextAlign = ContentAlignment.MiddleCenter;
+            lblDate.Font = new Font("Arial", 10, FontStyle.Bold);
+
+            switch (card.IsDateVisible)
+            {
+                case true:
+                    lblDate.Text = card.Date_Birth + " - " + card.Date_Death;
+                    break;
+
+                case false:
+                    lblDate.Text = "???? - ????";
+                    break;
+            }
+
             Label lblDescription = new Label();
             lblDescription.Text = card.Description;
-            lblDescription.Location = new Point(25, 250);
-            lblDescription.Size = new Size(200, 70);
+            lblDescription.Location = new Point(25, 285);
+            lblDescription.Size = new Size(200, 90);
+            lblDescription.TextAlign = ContentAlignment.TopLeft;
 
             panelCard.Controls.Add(picture);
             panelCard.Controls.Add(lblName);
             panelCard.Controls.Add(lblType);
+            panelCard.Controls.Add(lblDate);
             panelCard.Controls.Add(lblDescription);
 
             this.Controls.Add(panelCard);
