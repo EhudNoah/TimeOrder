@@ -94,7 +94,31 @@ namespace TimeOrder
                 false
             );
 
-            Gameplay test = new Gameplay(Einstein);
+            Card Newton = new Card(
+                1,
+                "Isaac",
+                "Newton",
+                "1643",
+                "1627",
+                "Isaac Newton est un mathématicien, physicien, philosophe, alchimiste, astronome et théologien anglais, puis britannique.",
+                @"D:\.NET C#\Images\Isaac_Newton.jpg",
+                false
+            );
+
+            Card Descartes = new Card(
+                1,
+                "René",
+                "Descartes",
+                "1596",
+                "1650",
+                "Toutes les occurrences du nom de lieu « La Haye » dans cet article font référence à La Haye-en-Touraine, aujourd'hui Descartes et non à La Haye.",
+                @"D:\.NET C#\Images\Rene_Descartes.jpg",
+                false
+            );
+
+
+
+            Gameplay test = new Gameplay(Einstein,Newton,Descartes);
 
             this.Hide();
             test.FormClosed += (s, args) => this.Close();
