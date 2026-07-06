@@ -40,6 +40,8 @@
             pnlPlayer3Cards = new Label();
             pnlPlayer4 = new Label();
             pnlPlayer4Cards = new Label();
+            pnlTimelineLine = new Panel();
+            pnlTimelineCard1 = new Panel();
             pnlBottom.SuspendLayout();
             SuspendLayout();
             // 
@@ -160,11 +162,29 @@
             pnlPlayer4Cards.TabIndex = 8;
             pnlPlayer4Cards.Text = "Cards left  ";
             // 
+            // pnlTimelineLine
+            // 
+            pnlTimelineLine.BackColor = Color.FromArgb(64, 64, 64);
+            pnlTimelineLine.Location = new Point(58, 209);
+            pnlTimelineLine.Name = "pnlTimelineLine";
+            pnlTimelineLine.Size = new Size(700, 10);
+            pnlTimelineLine.TabIndex = 9;
+            // 
+            // pnlTimelineCard1
+            // 
+            pnlTimelineCard1.BackColor = Color.FromArgb(255, 224, 192);
+            pnlTimelineCard1.BorderStyle = BorderStyle.FixedSingle;
+            pnlTimelineCard1.Location = new Point(61, 164);
+            pnlTimelineCard1.Name = "pnlTimelineCard1";
+            pnlTimelineCard1.Size = new Size(81, 100);
+            pnlTimelineCard1.TabIndex = 10;
+            // 
             // Gameplay
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(868, 522);
+            Controls.Add(pnlTimelineCard1);
             Controls.Add(pnlPlayer4Cards);
             Controls.Add(pnlPlayer4);
             Controls.Add(pnlPlayer3Cards);
@@ -174,6 +194,7 @@
             Controls.Add(pnlPlayer1Cards);
             Controls.Add(pnlPlayer1);
             Controls.Add(pnlBottom);
+            Controls.Add(pnlTimelineLine);
             Name = "Gameplay";
             Text = "Gameplay";
             pnlBottom.ResumeLayout(false);
@@ -195,5 +216,7 @@
         private Label pnlPlayer3Cards;
         private Label pnlPlayer4;
         private Label pnlPlayer4Cards;
+        private Panel pnlTimelineLine;
+        private Panel pnlTimelineCard1;
     }
 }

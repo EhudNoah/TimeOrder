@@ -14,7 +14,7 @@ namespace TimeOrder
 {
     public partial class LobbyForm : Form
     {
-        private string _username;
+        public string _username { get; private set; }
         private string _ip_address;
         private bool _is_Server;
         private Dictionary<string, bool> _playersReady = new Dictionary<string, bool>();
@@ -83,6 +83,9 @@ namespace TimeOrder
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+
+
+
             Card Einstein = new Card(
                 1,
                 "Einstein",
@@ -118,7 +121,7 @@ namespace TimeOrder
 
 
 
-            Gameplay test = new Gameplay(Einstein,Newton,Descartes);
+            Gameplay test = new Gameplay(Einstein,Newton,Descartes,_username);
 
             this.Hide();
             test.FormClosed += (s, args) => this.Close();
