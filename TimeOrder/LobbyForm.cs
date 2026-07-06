@@ -99,8 +99,8 @@ namespace TimeOrder
 
             Card Newton = new Card(
                 1,
-                "Isaac",
                 "Newton",
+                "Person",
                 "1643",
                 "1627",
                 "Isaac Newton est un mathématicien, physicien, philosophe, alchimiste, astronome et théologien anglais, puis britannique.",
@@ -110,8 +110,8 @@ namespace TimeOrder
 
             Card Descartes = new Card(
                 1,
-                "René",
                 "Descartes",
+                "Person",
                 "1596",
                 "1650",
                 "Toutes les occurrences du nom de lieu « La Haye » dans cet article font référence à La Haye-en-Touraine, aujourd'hui Descartes et non à La Haye.",

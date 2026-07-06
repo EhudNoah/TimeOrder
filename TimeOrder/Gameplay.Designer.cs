@@ -42,6 +42,7 @@
             pnlPlayer4Cards = new Label();
             pnlTimelineLine = new Panel();
             pnlTimelineCard1 = new Panel();
+            lblComment = new Label();
             pnlBottom.SuspendLayout();
             SuspendLayout();
             // 
@@ -179,11 +180,22 @@
             pnlTimelineCard1.Size = new Size(81, 100);
             pnlTimelineCard1.TabIndex = 10;
             // 
+            // lblComment
+            // 
+            lblComment.AutoSize = true;
+            lblComment.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblComment.Location = new Point(63, 307);
+            lblComment.Name = "lblComment";
+            lblComment.Size = new Size(68, 17);
+            lblComment.TabIndex = 11;
+            lblComment.Text = "Comment";
+            // 
             // Gameplay
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(868, 522);
+            Controls.Add(lblComment);
             Controls.Add(pnlTimelineCard1);
             Controls.Add(pnlPlayer4Cards);
             Controls.Add(pnlPlayer4);
@@ -218,5 +230,6 @@
         private Label pnlPlayer4Cards;
         private Panel pnlTimelineLine;
         private Panel pnlTimelineCard1;
+        private Label lblComment;
     }
 }

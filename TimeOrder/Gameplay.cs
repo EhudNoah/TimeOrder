@@ -18,10 +18,12 @@ namespace TimeOrder
         private Card _card2;
         private Card _card3;
         private List<Card> _timelineCards = new List<Card>();
+       
 
         public Gameplay(Card card1, Card card2, Card card3, String username)
         {
             InitializeComponent();
+            lblComment.Visible = false;
             _card1 = card1;
             _card2 = card2;
             _card3 = card3;
@@ -32,7 +34,7 @@ namespace TimeOrder
 
             pnlPlayer1.Text = username;
             AddCardToTimeline(card1);
-            AddCardToTimeline(card2);
+            AddCardToTimeline(card3);
 
         }
         public void DisplaySmallCard(Card card, Panel slot)
@@ -101,6 +103,12 @@ namespace TimeOrder
 
         private void AddCardToTimeline(Card card)
         {
+
+            if (CheckOrder(card) == false)
+            {
+                return;
+            }
+
             _timelineCards.Add(card);
 
             Panel cardPanel = new Panel();
@@ -141,12 +149,13 @@ namespace TimeOrder
 
                 if (cardYear < timelineYear)
                 {
-                    MessageBox.Show("Incorrect order");
+                    lblComment.Visible = true;
+                    lblComment.Text = "La carte: " + card.Name + " est dans le mauvais ordre !";
                     return false;
+                    
                 }
             }
 
-            MessageBox.Show("Correct order");
             return true;
         }
 
