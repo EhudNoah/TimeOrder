@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             pnlBottom = new Panel();
             pnlSlot3 = new Panel();
             pnlSlot2 = new Panel();
@@ -40,10 +41,12 @@
             pnlPlayer3Cards = new Label();
             pnlPlayer4 = new Label();
             pnlPlayer4Cards = new Label();
-            pnlTimelineLine = new Panel();
-            pnlTimelineCard1 = new Panel();
             lblComment = new Label();
+            panel1 = new Panel();
+            panel2 = new Panel();
+            FormTimer = new System.Windows.Forms.Timer(components);
             pnlBottom.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // pnlBottom
@@ -87,7 +90,7 @@
             // 
             pnlPlayer1.AutoSize = true;
             pnlPlayer1.Font = new Font("Segoe UI", 9.75F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            pnlPlayer1.Location = new Point(60, 23);
+            pnlPlayer1.Location = new Point(17, 12);
             pnlPlayer1.Name = "pnlPlayer1";
             pnlPlayer1.Size = new Size(49, 17);
             pnlPlayer1.TabIndex = 1;
@@ -97,7 +100,7 @@
             // 
             pnlPlayer1Cards.AutoSize = true;
             pnlPlayer1Cards.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            pnlPlayer1Cards.Location = new Point(130, 25);
+            pnlPlayer1Cards.Location = new Point(87, 14);
             pnlPlayer1Cards.Name = "pnlPlayer1Cards";
             pnlPlayer1Cards.Size = new Size(67, 15);
             pnlPlayer1Cards.TabIndex = 2;
@@ -107,7 +110,7 @@
             // 
             pnlPlayer2.AutoSize = true;
             pnlPlayer2.Font = new Font("Segoe UI", 9.75F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            pnlPlayer2.Location = new Point(203, 23);
+            pnlPlayer2.Location = new Point(160, 12);
             pnlPlayer2.Name = "pnlPlayer2";
             pnlPlayer2.Size = new Size(53, 17);
             pnlPlayer2.TabIndex = 3;
@@ -117,7 +120,7 @@
             // 
             pnlPlayer2Cards.AutoSize = true;
             pnlPlayer2Cards.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            pnlPlayer2Cards.Location = new Point(271, 25);
+            pnlPlayer2Cards.Location = new Point(228, 14);
             pnlPlayer2Cards.Name = "pnlPlayer2Cards";
             pnlPlayer2Cards.Size = new Size(67, 15);
             pnlPlayer2Cards.TabIndex = 4;
@@ -127,7 +130,7 @@
             // 
             pnlPlayer3.AutoSize = true;
             pnlPlayer3.Font = new Font("Segoe UI", 9.75F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            pnlPlayer3.Location = new Point(344, 23);
+            pnlPlayer3.Location = new Point(301, 12);
             pnlPlayer3.Name = "pnlPlayer3";
             pnlPlayer3.Size = new Size(53, 17);
             pnlPlayer3.TabIndex = 5;
@@ -137,7 +140,7 @@
             // 
             pnlPlayer3Cards.AutoSize = true;
             pnlPlayer3Cards.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            pnlPlayer3Cards.Location = new Point(423, 25);
+            pnlPlayer3Cards.Location = new Point(380, 14);
             pnlPlayer3Cards.Name = "pnlPlayer3Cards";
             pnlPlayer3Cards.Size = new Size(67, 15);
             pnlPlayer3Cards.TabIndex = 6;
@@ -147,7 +150,7 @@
             // 
             pnlPlayer4.AutoSize = true;
             pnlPlayer4.Font = new Font("Segoe UI", 9.75F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            pnlPlayer4.Location = new Point(496, 23);
+            pnlPlayer4.Location = new Point(453, 12);
             pnlPlayer4.Name = "pnlPlayer4";
             pnlPlayer4.Size = new Size(53, 17);
             pnlPlayer4.TabIndex = 7;
@@ -157,38 +160,55 @@
             // 
             pnlPlayer4Cards.AutoSize = true;
             pnlPlayer4Cards.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            pnlPlayer4Cards.Location = new Point(565, 25);
+            pnlPlayer4Cards.Location = new Point(522, 14);
             pnlPlayer4Cards.Name = "pnlPlayer4Cards";
             pnlPlayer4Cards.Size = new Size(64, 15);
             pnlPlayer4Cards.TabIndex = 8;
             pnlPlayer4Cards.Text = "Cards left  ";
             // 
-            // pnlTimelineLine
-            // 
-            pnlTimelineLine.BackColor = Color.FromArgb(64, 64, 64);
-            pnlTimelineLine.Location = new Point(58, 209);
-            pnlTimelineLine.Name = "pnlTimelineLine";
-            pnlTimelineLine.Size = new Size(700, 10);
-            pnlTimelineLine.TabIndex = 9;
-            // 
-            // pnlTimelineCard1
-            // 
-            pnlTimelineCard1.BackColor = Color.FromArgb(255, 224, 192);
-            pnlTimelineCard1.BorderStyle = BorderStyle.FixedSingle;
-            pnlTimelineCard1.Location = new Point(61, 164);
-            pnlTimelineCard1.Name = "pnlTimelineCard1";
-            pnlTimelineCard1.Size = new Size(81, 100);
-            pnlTimelineCard1.TabIndex = 10;
-            // 
             // lblComment
             // 
             lblComment.AutoSize = true;
             lblComment.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblComment.Location = new Point(63, 307);
+            lblComment.Location = new Point(42, 332);
             lblComment.Name = "lblComment";
             lblComment.Size = new Size(68, 17);
             lblComment.TabIndex = 11;
             lblComment.Text = "Comment";
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(pnlPlayer1);
+            panel1.Controls.Add(pnlPlayer4Cards);
+            panel1.Controls.Add(pnlPlayer1Cards);
+            panel1.Controls.Add(pnlPlayer4);
+            panel1.Controls.Add(pnlPlayer2);
+            panel1.Controls.Add(pnlPlayer3Cards);
+            panel1.Controls.Add(pnlPlayer2Cards);
+            panel1.Controls.Add(pnlPlayer3);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(868, 44);
+            panel1.TabIndex = 12;
+            // 
+            // panel2
+            // 
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 44);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(868, 339);
+            panel2.TabIndex = 13;
+            panel2.Paint += FormPaintEvent;
+            panel2.MouseDown += FormMouseDown;
+            panel2.MouseMove += FormMouseMove;
+            panel2.MouseUp += FormMouseUp;
+            // 
+            // FormTimer
+            // 
+            FormTimer.Enabled = true;
+            FormTimer.Interval = 20;
+            FormTimer.Tick += FormTimerEvent;
             // 
             // Gameplay
             // 
@@ -196,20 +216,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(868, 522);
             Controls.Add(lblComment);
-            Controls.Add(pnlTimelineCard1);
-            Controls.Add(pnlPlayer4Cards);
-            Controls.Add(pnlPlayer4);
-            Controls.Add(pnlPlayer3Cards);
-            Controls.Add(pnlPlayer3);
-            Controls.Add(pnlPlayer2Cards);
-            Controls.Add(pnlPlayer2);
-            Controls.Add(pnlPlayer1Cards);
-            Controls.Add(pnlPlayer1);
+            Controls.Add(panel2);
             Controls.Add(pnlBottom);
-            Controls.Add(pnlTimelineLine);
+            Controls.Add(panel1);
             Name = "Gameplay";
             Text = "Gameplay";
             pnlBottom.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -228,8 +242,9 @@
         private Label pnlPlayer3Cards;
         private Label pnlPlayer4;
         private Label pnlPlayer4Cards;
-        private Panel pnlTimelineLine;
-        private Panel pnlTimelineCard1;
         private Label lblComment;
+        private Panel panel1;
+        private Panel panel2;
+        private System.Windows.Forms.Timer FormTimer;
     }
 }
