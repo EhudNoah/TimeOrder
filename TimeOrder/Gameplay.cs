@@ -334,6 +334,18 @@ namespace TimeOrder
 
             lblComment.BringToFront();
 
+            // calculer x
+            //  1955 - 1596 = 359
+            float pixelsPerYear = (float)this.Width / 359;
+
+            TextBox card = new();
+            card.Text = selectedCard.Name;
+            card.Size = new Size(20, 20);
+            card.Top = selectedCardPanel.Top;
+            card.Left = (int)((float.Parse(selectedCard.Date_Birth) - 1596) / pixelsPerYear);
+            panel2.Controls.Add(card);
+
+            selectedCardPanel.Visible = false;
 
             AddCardToTimeline(selectedCard);
         }
