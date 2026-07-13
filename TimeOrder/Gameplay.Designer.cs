@@ -7,28 +7,33 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">
+        /// true if managed resources should be disposed;
+        /// otherwise, false.
+        /// </param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && components != null)
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
+
         #region Windows Form Designer generated code
 
+
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// Required method for Designer support.
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             pnlBottom = new Panel();
             pnlSlot3 = new Panel();
             pnlSlot2 = new Panel();
@@ -44,7 +49,6 @@
             lblComment = new Label();
             panel1 = new Panel();
             panel2 = new Panel();
-            FormTimer = new System.Windows.Forms.Timer(components);
             pnlBottom.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -64,26 +68,28 @@
             // pnlSlot3
             // 
             pnlSlot3.BackColor = Color.FromArgb(255, 224, 192);
-            pnlSlot3.Location = new Point(578, 15);
+            pnlSlot3.BorderStyle = BorderStyle.FixedSingle;
+            pnlSlot3.Location = new Point(581, 9);
             pnlSlot3.Name = "pnlSlot3";
-            pnlSlot3.Size = new Size(180, 100);
+            pnlSlot3.Size = new Size(99, 130);
             pnlSlot3.TabIndex = 2;
             // 
             // pnlSlot2
             // 
             pnlSlot2.BackColor = Color.FromArgb(255, 224, 192);
-            pnlSlot2.Location = new Point(310, 15);
+            pnlSlot2.BorderStyle = BorderStyle.FixedSingle;
+            pnlSlot2.Location = new Point(330, 9);
             pnlSlot2.Name = "pnlSlot2";
-            pnlSlot2.Size = new Size(180, 100);
+            pnlSlot2.Size = new Size(99, 130);
             pnlSlot2.TabIndex = 1;
             // 
             // pnlSlot1
             // 
             pnlSlot1.BackColor = Color.FromArgb(255, 224, 192);
             pnlSlot1.BorderStyle = BorderStyle.FixedSingle;
-            pnlSlot1.Location = new Point(60, 15);
+            pnlSlot1.Location = new Point(87, 9);
             pnlSlot1.Name = "pnlSlot1";
-            pnlSlot1.Size = new Size(180, 100);
+            pnlSlot1.Size = new Size(99, 130);
             pnlSlot1.TabIndex = 0;
             // 
             // pnlPlayer1
@@ -179,13 +185,13 @@
             // panel1
             // 
             panel1.Controls.Add(pnlPlayer1);
-            panel1.Controls.Add(pnlPlayer4Cards);
             panel1.Controls.Add(pnlPlayer1Cards);
-            panel1.Controls.Add(pnlPlayer4);
             panel1.Controls.Add(pnlPlayer2);
-            panel1.Controls.Add(pnlPlayer3Cards);
             panel1.Controls.Add(pnlPlayer2Cards);
             panel1.Controls.Add(pnlPlayer3);
+            panel1.Controls.Add(pnlPlayer3Cards);
+            panel1.Controls.Add(pnlPlayer4);
+            panel1.Controls.Add(pnlPlayer4Cards);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
@@ -199,24 +205,14 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(868, 339);
             panel2.TabIndex = 13;
-            panel2.Paint += FormPaintEvent;
-            panel2.MouseDown += FormMouseDown;
-            panel2.MouseMove += FormMouseMove;
-            panel2.MouseUp += FormMouseUp;
-            // 
-            // FormTimer
-            // 
-            FormTimer.Enabled = true;
-            FormTimer.Interval = 20;
-            FormTimer.Tick += FormTimerEvent;
             // 
             // Gameplay
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(868, 522);
-            Controls.Add(lblComment);
             Controls.Add(panel2);
+            Controls.Add(lblComment);
             Controls.Add(pnlBottom);
             Controls.Add(panel1);
             Name = "Gameplay";
@@ -228,23 +224,31 @@
             PerformLayout();
         }
 
+
         #endregion
 
+
         private Panel pnlBottom;
+
         private Panel pnlSlot1;
-        private Panel pnlSlot3;
         private Panel pnlSlot2;
+        private Panel pnlSlot3;
+
         private Label pnlPlayer1;
         private Label pnlPlayer1Cards;
+
         private Label pnlPlayer2;
         private Label pnlPlayer2Cards;
+
         private Label pnlPlayer3;
         private Label pnlPlayer3Cards;
+
         private Label pnlPlayer4;
         private Label pnlPlayer4Cards;
+
         private Label lblComment;
+
         private Panel panel1;
         private Panel panel2;
-        private System.Windows.Forms.Timer FormTimer;
     }
 }
