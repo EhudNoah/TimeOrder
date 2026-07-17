@@ -21,10 +21,22 @@ namespace TimeOrder
 
         private bool dragging;
 
+        private PictureBox pictureCardPreview;
+
 
         public Gameplay(Card card1, Card card2, Card card3, String username)
         {
             InitializeComponent();
+
+            pictureCardPreview = new PictureBox();
+
+            pictureCardPreview.Size = new Size(80, 70);
+            pictureCardPreview.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureCardPreview.BorderStyle = BorderStyle.FixedSingle;
+            pictureCardPreview.BackColor = Color.White;
+            pictureCardPreview.Visible = false;
+
+            this.Controls.Add(pictureCardPreview);
 
             lblComment.Visible = false;
 
@@ -336,18 +348,128 @@ namespace TimeOrder
 
             // calculer x
             //  1955 - 1596 = 359
-            float pixelsPerYear = (float)this.Width / 359;
+            int firstYear = 1596;
+            int lastYear = 1955;
 
-            TextBox card = new();
+            int birthYear = int.Parse(selectedCard.Date_Birth);
+            int deathYear = int.Parse(selectedCard.Date_Death);
+
+            int totalYears = lastYear - firstYear;
+            int lifeDuration = deathYear - birthYear;
+
+            float pixelsPerYear = (float)panel2.Width / totalYears;
+
+            int textBoxLeft = (int)((birthYear - firstYear) * pixelsPerYear);
+            int textBoxWidth = (int)(lifeDuration * pixelsPerYear);
+
+            if (textBoxWidth < 40)
+            {
+                textBoxWidth = 40;
+            }
+
+            TextBox card = new TextBox();
+
             card.Text = selectedCard.Name;
-            card.Size = new Size(20, 20);
+            card.Size = new Size(textBoxWidth, 20);
+            card.Left = textBoxLeft;
             card.Top = selectedCardPanel.Top;
-            card.Left = (int)((float.Parse(selectedCard.Date_Birth) - 1596) / pixelsPerYear);
+            card.ReadOnly = true;
+            card.TextAlign = HorizontalAlignment.Center;
+
+            card.Tag = selectedCard;
+
+            card.MouseEnter += TextBoxCardMouseEnter;
+            card.MouseLeave += TextBoxCardMouseLeave;
+
             panel2.Controls.Add(card);
 
             selectedCardPanel.Visible = false;
 
             AddCardToTimeline(selectedCard);
+        }
+
+
+        private void TextBoxCardMouseEnter(object sender, EventArgs e)
+        {
+            TextBox textBoxCard = sender as TextBox;
+
+            if (textBoxCard == null)
+            {
+                return;
+            }
+
+            Card card = textBoxCard.Tag as Card;
+
+            if (card == null)
+            {
+                return;
+            }
+
+            if (File.Exists(card.ImagePath) == false)
+            {
+                return;
+            }
+
+            if (pictureCardPreview.Image != null)
+            {
+                pictureCardPreview.Image.Dispose();
+                pictureCardPreview.Image = null;
+            }
+
+            try
+            {
+                using (Image image = Image.FromFile(card.ImagePath))
+                {
+                    pictureCardPreview.Image = new Bitmap(image);
+                }
+            }
+            catch
+            {
+                return;
+            }
+
+            Point textBoxPosition = this.PointToClient(
+                textBoxCard.PointToScreen(
+                    Point.Empty
+                )
+            );
+
+            pictureCardPreview.Left =
+                textBoxPosition.X
+                + textBoxCard.Width
+                + 10;
+
+            pictureCardPreview.Top =
+                selectedCardPanel.Top;
+
+            if (pictureCardPreview.Top < 0)
+            {
+                pictureCardPreview.Top =
+                    selectedCardPanel.Top;
+            }
+
+            if (pictureCardPreview.Right > this.ClientSize.Width)
+            {
+                pictureCardPreview.Left =
+                    textBoxPosition.X
+                    - pictureCardPreview.Width
+                    - 10;
+            }
+
+            pictureCardPreview.Visible = true;
+            pictureCardPreview.BringToFront();
+        }
+
+
+        private void TextBoxCardMouseLeave(object sender, EventArgs e)
+        {
+            pictureCardPreview.Visible = false;
+
+            if (pictureCardPreview.Image != null)
+            {
+                pictureCardPreview.Image.Dispose();
+                pictureCardPreview.Image = null;
+            }
         }
 
 
@@ -379,7 +501,6 @@ namespace TimeOrder
             int cardYear = int.Parse(
                 card.Date_Birth
             );
-
 
 
             for (int i = 0; i < _timelineCards.Count; i++)
