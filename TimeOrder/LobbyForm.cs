@@ -18,7 +18,8 @@ namespace TimeOrder
         private string _ip_address;
         private bool _is_Server;
         private Dictionary<string, bool> _playersReady = new Dictionary<string, bool>();
-        public LobbyForm(string username, string ip_address, bool isServer)
+        private List<Card> _cards;
+        public LobbyForm(string username, string ip_address, bool isServer, List<Card> cards)
         {
             InitializeComponent();
             _username = username;
@@ -29,6 +30,7 @@ namespace TimeOrder
             _playersReady.Add(_username, false);
             btnStart.Visible = false;
             chkReady.Checked = false;
+            _cards = cards;
 
 
             if (isServer)
@@ -83,48 +85,18 @@ namespace TimeOrder
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            if (_cards.Count < 3)
+            {
+                MessageBox.Show("Il faut au moins 3 cartes pour commencer.");
+                return;
+            }
 
-
-
-            Card Einstein = new Card(
-                1,
-                "Einstein",
-                "Person",
-                "1879",
-                "1955",
-                "Il publie sa théorie de la relativité restreinte en 1905 et sa théorie de la gravitation, dite relativité générale, en 1915.",
-                @"D:\.NET C#\Images\Albert_Einstein.jpg",
-                false
-            );
-
-            Card Newton = new Card(
-                1,
-                "Newton",
-                "Person",
-                "1643",
-                "1627",
-                "Isaac Newton est un mathématicien, physicien, philosophe, alchimiste, astronome et théologien anglais, puis britannique.",
-                @"D:\.NET C#\Images\Isaac_Newton.jpg",
-                false
-            );
-
-            Card Descartes = new Card(
-                1,
-                "Descartes",
-                "Person",
-                "1596",
-                "1650",
-                "Toutes les occurrences du nom de lieu « La Haye » dans cet article font référence à La Haye-en-Touraine, aujourd'hui Descartes et non à La Haye.",
-                @"D:\.NET C#\Images\Rene_Descartes.jpg",
-                false
-            );
-
-
-
-            Gameplay test = new Gameplay(Einstein,Newton,Descartes,_username);
+            Gameplay test = new Gameplay(_cards, _username);
 
             this.Hide();
+
             test.FormClosed += (s, args) => this.Close();
+
             test.Show();
         }
     }

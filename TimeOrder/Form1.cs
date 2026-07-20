@@ -2,11 +2,14 @@ namespace TimeOrder
 {
     public partial class Form1 : Form
     {
-        public Form1()
+        private List<Card> _cards;
+
+        public Form1(List<Card> cards)
         {
             InitializeComponent();
-        }
 
+            _cards = cards;
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             rbServer.Checked = true;
@@ -53,7 +56,7 @@ namespace TimeOrder
 
             if (rbServer.Checked)
             {
-                LobbyForm lobby = new LobbyForm(username, "", true);
+                LobbyForm lobby = new LobbyForm(username, ipAddress, true, _cards);
 
                 this.Hide();
                 lobby.FormClosed += (s, args) => this.Close();
@@ -73,7 +76,7 @@ namespace TimeOrder
                     return;
                 }
 
-                LobbyForm lobby = new LobbyForm(username, ipAddress, false);
+                LobbyForm lobby = new LobbyForm(username, ipAddress, false, _cards);
 
                 this.Hide();
                 lobby.FormClosed += (s, args) => this.Close();

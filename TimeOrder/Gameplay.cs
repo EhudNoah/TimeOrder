@@ -8,9 +8,8 @@ namespace TimeOrder
 {
     public partial class Gameplay : Form
     {
-        private Card _card1;
-        private Card _card2;
-        private Card _card3;
+        private List<Card> _cards;
+
 
         private List<Card> _timelineCards = new List<Card>();
 
@@ -24,7 +23,7 @@ namespace TimeOrder
         private PictureBox pictureCardPreview;
 
 
-        public Gameplay(Card card1, Card card2, Card card3, String username)
+        public Gameplay(List<Card> cards, String username)
         {
             InitializeComponent();
 
@@ -40,13 +39,17 @@ namespace TimeOrder
 
             lblComment.Visible = false;
 
-            _card1 = card1;
-            _card2 = card2;
-            _card3 = card3;
+            _cards = cards;
 
-            DisplaySmallCard(_card1, pnlSlot1);
-            DisplaySmallCard(_card2, pnlSlot2);
-            DisplaySmallCard(_card3, pnlSlot3);
+            if (_cards.Count < 3)
+            {
+                MessageBox.Show("Il faut au moins 3 cartes dans le fichier JSON.");
+                return;
+            }
+
+            DisplaySmallCard(_cards[0], pnlSlot1);
+            DisplaySmallCard(_cards[1], pnlSlot2);
+            DisplaySmallCard(_cards[2], pnlSlot3);
 
             pnlPlayer1.Text = username;
         }

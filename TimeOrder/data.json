@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "Name": "Einstein",
+    "Type": "Person",
+    "Date_Birth": "1879",
+    "Date_Death": "1955",
+    "Description": "Il publie sa th\u00E9orie de la relativit\u00E9 restreinte en 1905 et sa th\u00E9orie de la gravitation, dite relativit\u00E9 g\u00E9n\u00E9rale, en 1915.",
+    "ImagePath": "D:\\.NET C#\\Images\\Albert_Einstein.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 1,
+    "Name": "Newton",
+    "Type": "Person",
+    "Date_Birth": "1643",
+    "Date_Death": "1727",
+    "Description": "Isaac Newton est un math\u00E9maticien, physicien, philosophe, alchimiste, astronome et th\u00E9ologien anglais, puis britannique.",
+    "ImagePath": "D:\\.NET C#\\Images\\Isaac_Newton.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 1,
+    "Name": "Descartes",
+    "Type": "Person",
+    "Date_Birth": "1596",
+    "Date_Death": "1650",
+    "Description": "Toutes les occurrences du nom de lieu \u00AB La Haye \u00BB dans cet article font r\u00E9f\u00E9rence \u00E0 La Haye-en-Touraine, aujourd\u0027hui Descartes et non \u00E0 La Haye.",
+    "ImagePath": "D:\\.NET C#\\Images\\Rene_Descartes.jpg",
+    "IsDateVisible": false
+  }
+]
