@@ -15,33 +15,35 @@ namespace TimeOrder
     public partial class LobbyForm : Form
     {
         public string _username { get; private set; }
+        private Deck _deck;     
         private string _ip_address;
         private bool _is_Server;
         private Dictionary<string, bool> _playersReady = new Dictionary<string, bool>();
         private List<Card> _cards;
-        public LobbyForm(string username, string ip_address, bool isServer, List<Card> cards)
+        public LobbyForm(string username, string ip_address, bool isServer, Deck deck)
         {
             InitializeComponent();
+
             _username = username;
             _ip_address = ip_address;
             _is_Server = isServer;
+            _deck = deck;
+
             btnReady.Text = "Ready";
             lblPlayer.Text = "Player 1 : " + _username;
             _playersReady.Add(_username, false);
             btnStart.Visible = false;
             chkReady.Checked = false;
-            _cards = cards;
-
 
             if (isServer)
             {
-                MessageBox.Show($"Lobby created successfuly");
+                MessageBox.Show("Lobby created successfully");
                 lblTitle.Text = _username + "'s Lobby";
                 lblMode.Text = "Server Mode";
             }
             else
             {
-                MessageBox.Show($"Welcome to {username}'s Lobby");
+                MessageBox.Show("Welcome to " + username + "'s Lobby");
                 lblTitle.Text = _username + "'s Lobby";
                 lblMode.Text = "Client Mode";
                 lblIpLobby.Text = "Ip Address: " + _ip_address.Trim();
@@ -85,19 +87,19 @@ namespace TimeOrder
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (_cards.Count < 3)
+            if (_deck.Count < 12)
             {
-                MessageBox.Show("Il faut au moins 3 cartes pour commencer.");
+                MessageBox.Show("Il faut au moins 12 cartes pour distribuer 3 cartes à 4 joueurs.");
                 return;
             }
 
-            Gameplay test = new Gameplay(_cards, _username);
+            Gameplay gameplay = new Gameplay(_deck, _username);
 
             this.Hide();
 
-            test.FormClosed += (s, args) => this.Close();
+            gameplay.FormClosed += (s, args) => this.Close();
 
-            test.Show();
+            gameplay.Show();
         }
     }
 }

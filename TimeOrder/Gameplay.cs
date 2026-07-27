@@ -8,7 +8,8 @@ namespace TimeOrder
 {
     public partial class Gameplay : Form
     {
-        private List<Card> _cards;
+        private Deck _deck;
+        private List<Player> _players = new List<Player>();
 
 
         private List<Card> _timelineCards = new List<Card>();
@@ -23,35 +24,52 @@ namespace TimeOrder
         private PictureBox pictureCardPreview;
 
 
-        public Gameplay(List<Card> cards, String username)
+        public Gameplay(Deck deck, string username)
         {
             InitializeComponent();
 
             pictureCardPreview = new PictureBox();
 
-            pictureCardPreview.Size = new Size(80, 70);
+            pictureCardPreview.Size = new Size(180, 230);
             pictureCardPreview.SizeMode = PictureBoxSizeMode.Zoom;
             pictureCardPreview.BorderStyle = BorderStyle.FixedSingle;
-            pictureCardPreview.BackColor = Color.White;
             pictureCardPreview.Visible = false;
 
             this.Controls.Add(pictureCardPreview);
+            pictureCardPreview.BringToFront();
+
+            _deck = deck;
 
             lblComment.Visible = false;
 
-            _cards = cards;
+            CreatePlayers(username);
 
-            if (_cards.Count < 3)
+            _deck.Shuffle();
+
+            DealCards(3);
+
+            DisplayCurrentPlayerHand();
+            UpdatePlayerLabels();
+            PrintDistributedCards();
+        }
+
+        private void CreatePlayers(string username)
+        {
+            _players.Add(new Player(username));
+            _players.Add(new Player("Player 2"));
+            _players.Add(new Player("Player 3"));
+            _players.Add(new Player("Player 4"));
+        }
+
+        private void DealCards(int cardsPerPlayer)
+        {
+            for (int i = 0; i < cardsPerPlayer; i++)
             {
-                MessageBox.Show("Il faut au moins 3 cartes dans le fichier JSON.");
-                return;
+                for (int j = 0; j < _players.Count; j++)
+                {
+                    _players[j].DrawCard(_deck);
+                }
             }
-
-            DisplaySmallCard(_cards[0], pnlSlot1);
-            DisplaySmallCard(_cards[1], pnlSlot2);
-            DisplaySmallCard(_cards[2], pnlSlot3);
-
-            pnlPlayer1.Text = username;
         }
 
 
@@ -386,30 +404,69 @@ namespace TimeOrder
 
             panel2.Controls.Add(card);
 
-            selectedCardPanel.Visible = false;
+            Card playedCard = selectedCard;
 
-            AddCardToTimeline(selectedCard);
+            AddCardToTimeline(playedCard);
+
+            Player currentPlayer = _players[0];
+
+            currentPlayer.RemoveCard(playedCard);
+
+            Card drawnCard = currentPlayer.DrawCard(_deck);
+
+            Console.WriteLine(currentPlayer.Name + " a joué : " + playedCard.Name);
+
+            if (drawnCard != null)
+            {
+                Console.WriteLine(currentPlayer.Name + " a pioché : " + drawnCard.Name);
+            }
+            else
+            {
+                Console.WriteLine("La pioche est vide.");
+            }
+
+            Console.WriteLine("Cartes restantes dans la pioche : " + _deck.Count);
+            Console.WriteLine();
+
+            selectedCardPanel.Dispose();
+
+            selectedCardPanel = null;
+            selectedCard = null;
+
+            DisplayCurrentPlayerHand();
+            UpdatePlayerLabels();
         }
 
 
         private void TextBoxCardMouseEnter(object sender, EventArgs e)
         {
-            TextBox textBoxCard = sender as TextBox;
+            TextBox textBox = sender as TextBox;
 
-            if (textBoxCard == null)
+            if (textBox == null)
             {
                 return;
             }
 
-            Card card = textBoxCard.Tag as Card;
+            Card card = textBox.Tag as Card;
 
             if (card == null)
             {
                 return;
             }
 
+            if (pictureCardPreview == null)
+            {
+                return;
+            }
+
+            if (card.ImagePath == null || card.ImagePath.Trim() == "")
+            {
+                return;
+            }
+
             if (File.Exists(card.ImagePath) == false)
             {
+                Console.WriteLine("Image introuvable : " + card.ImagePath);
                 return;
             }
 
@@ -419,45 +476,15 @@ namespace TimeOrder
                 pictureCardPreview.Image = null;
             }
 
-            try
+            using (Image originalImage = Image.FromFile(card.ImagePath))
             {
-                using (Image image = Image.FromFile(card.ImagePath))
-                {
-                    pictureCardPreview.Image = new Bitmap(image);
-                }
-            }
-            catch
-            {
-                return;
+                pictureCardPreview.Image = new Bitmap(originalImage);
             }
 
-            Point textBoxPosition = this.PointToClient(
-                textBoxCard.PointToScreen(
-                    Point.Empty
-                )
-            );
+            Point position = this.PointToClient(Cursor.Position);
 
-            pictureCardPreview.Left =
-                textBoxPosition.X
-                + textBoxCard.Width
-                + 10;
-
-            pictureCardPreview.Top =
-                selectedCardPanel.Top;
-
-            if (pictureCardPreview.Top < 0)
-            {
-                pictureCardPreview.Top =
-                    selectedCardPanel.Top;
-            }
-
-            if (pictureCardPreview.Right > this.ClientSize.Width)
-            {
-                pictureCardPreview.Left =
-                    textBoxPosition.X
-                    - pictureCardPreview.Width
-                    - 10;
-            }
+            pictureCardPreview.Left = position.X + 15;
+            pictureCardPreview.Top = position.Y + 15;
 
             pictureCardPreview.Visible = true;
             pictureCardPreview.BringToFront();
@@ -466,13 +493,12 @@ namespace TimeOrder
 
         private void TextBoxCardMouseLeave(object sender, EventArgs e)
         {
-            pictureCardPreview.Visible = false;
-
-            if (pictureCardPreview.Image != null)
+            if (pictureCardPreview == null)
             {
-                pictureCardPreview.Image.Dispose();
-                pictureCardPreview.Image = null;
+                return;
             }
+
+            pictureCardPreview.Visible = false;
         }
 
 
@@ -528,6 +554,76 @@ namespace TimeOrder
 
 
             return true;
+        }
+        private void PrintDistributedCards()
+        {
+            Console.WriteLine();
+            Console.WriteLine("========== CARTES DISTRIBUÉES ==========");
+
+            for (int i = 0; i < _players.Count; i++)
+            {
+                Console.Write("Player " + (i + 1) + " (" + _players[i].Name + ") : ");
+
+                for (int j = 0; j < _players[i].Hand.Count; j++)
+                {
+                    Console.Write(_players[i].Hand[j].Name);
+
+                    if (j < _players[i].Hand.Count - 1)
+                    {
+                        Console.Write(", ");
+                    }
+                }
+
+                Console.WriteLine();
+            }
+
+            Console.WriteLine("Cartes restantes dans la pioche : " + _deck.Count);
+            Console.WriteLine("========================================");
+            Console.WriteLine();
+        }
+
+        private void DisplayCurrentPlayerHand()
+        {
+            ClearSlot(pnlSlot1);
+            ClearSlot(pnlSlot2);
+            ClearSlot(pnlSlot3);
+
+            Player currentPlayer = _players[0];
+
+            if (currentPlayer.Hand.Count > 0)
+            {
+                DisplaySmallCard(currentPlayer.Hand[0], pnlSlot1);
+            }
+
+            if (currentPlayer.Hand.Count > 1)
+            {
+                DisplaySmallCard(currentPlayer.Hand[1], pnlSlot2);
+            }
+
+            if (currentPlayer.Hand.Count > 2)
+            {
+                DisplaySmallCard(currentPlayer.Hand[2], pnlSlot3);
+            }
+        }
+
+        private void ClearSlot(Panel slot)
+        {
+            while (slot.Controls.Count > 0)
+            {
+                slot.Controls[0].Dispose();
+            }
+        }
+        private void UpdatePlayerLabels()
+        {
+            pnlPlayer1.Text = _players[0].Name;
+            pnlPlayer2.Text = _players[1].Name;
+            pnlPlayer3.Text = _players[2].Name;
+            pnlPlayer4.Text = _players[3].Name;
+
+            pnlPlayer1Cards.Text = _players[0].Hand.Count + " cartes |";
+            pnlPlayer2Cards.Text = _players[1].Hand.Count + " cartes |";
+            pnlPlayer3Cards.Text = _players[2].Hand.Count + " cartes |";
+            pnlPlayer4Cards.Text = _players[3].Hand.Count + " cartes";
         }
     }
 }

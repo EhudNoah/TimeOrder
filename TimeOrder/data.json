@@ -1,32 +1,122 @@
 [
   {
     "id": 1,
-    "Name": "Einstein",
+    "Name": "Albert Einstein",
     "Type": "Person",
     "Date_Birth": "1879",
     "Date_Death": "1955",
-    "Description": "Il publie sa th\u00E9orie de la relativit\u00E9 restreinte en 1905 et sa th\u00E9orie de la gravitation, dite relativit\u00E9 g\u00E9n\u00E9rale, en 1915.",
+    "Description": "Albert Einstein est un physicien allemand connu pour avoir développé la théorie de la relativité. Il publie la théorie de la relativité restreinte en 1905, puis la théorie de la relativité générale en 1915.",
     "ImagePath": "D:\\.NET C#\\Images\\Albert_Einstein.jpg",
     "IsDateVisible": false
   },
   {
-    "id": 1,
-    "Name": "Newton",
+    "id": 2,
+    "Name": "Isaac Newton",
     "Type": "Person",
     "Date_Birth": "1643",
     "Date_Death": "1727",
-    "Description": "Isaac Newton est un math\u00E9maticien, physicien, philosophe, alchimiste, astronome et th\u00E9ologien anglais, puis britannique.",
+    "Description": "Isaac Newton est un mathématicien, physicien et astronome anglais. Il est notamment connu pour ses travaux sur la gravitation universelle, les lois du mouvement et le calcul infinitésimal.",
     "ImagePath": "D:\\.NET C#\\Images\\Isaac_Newton.jpg",
     "IsDateVisible": false
   },
   {
-    "id": 1,
-    "Name": "Descartes",
+    "id": 3,
+    "Name": "René Descartes",
     "Type": "Person",
     "Date_Birth": "1596",
     "Date_Death": "1650",
-    "Description": "Toutes les occurrences du nom de lieu \u00AB La Haye \u00BB dans cet article font r\u00E9f\u00E9rence \u00E0 La Haye-en-Touraine, aujourd\u0027hui Descartes et non \u00E0 La Haye.",
+    "Description": "René Descartes est un philosophe, mathématicien et scientifique français. Il est notamment connu pour la phrase « Je pense, donc je suis » et pour ses contributions à la géométrie analytique.",
     "ImagePath": "D:\\.NET C#\\Images\\Rene_Descartes.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 4,
+    "Name": "Marie Curie",
+    "Type": "Person",
+    "Date_Birth": "1867",
+    "Date_Death": "1934",
+    "Description": "Marie Curie est une physicienne et chimiste d'origine polonaise. Elle mène d'importantes recherches sur la radioactivité et reçoit deux prix Nobel dans deux disciplines scientifiques différentes.",
+    "ImagePath": "D:\\.NET C#\\Images\\Marie_Curie.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 5,
+    "Name": "Alan Turing",
+    "Type": "Person",
+    "Date_Birth": "1912",
+    "Date_Death": "1954",
+    "Description": "Alan Turing est un mathématicien et cryptologue britannique considéré comme l'un des fondateurs de l'informatique. Pendant la Seconde Guerre mondiale, il participe au déchiffrement des messages allemands codés par la machine Enigma.",
+    "ImagePath": "D:\\.NET C#\\Images\\Alan_Turing.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 6,
+    "Name": "Nikola Tesla",
+    "Type": "Person",
+    "Date_Birth": "1856",
+    "Date_Death": "1943",
+    "Description": "Nikola Tesla est un inventeur et ingénieur connu pour ses travaux sur l'électricité et le courant alternatif. Ses inventions ont contribué au développement des systèmes modernes de production et de distribution électrique.",
+    "ImagePath": "D:\\.NET C#\\Images\\Nikola_Tesla.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 7,
+    "Name": "Ada Lovelace",
+    "Type": "Person",
+    "Date_Birth": "1815",
+    "Date_Death": "1852",
+    "Description": "Ada Lovelace est une mathématicienne britannique connue pour ses travaux sur la machine analytique de Charles Babbage. Elle est souvent considérée comme l'auteure du premier programme informatique.",
+    "ImagePath": "D:\\.NET C#\\Images\\Ada_Lovelace.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 8,
+    "Name": "Charles Darwin",
+    "Type": "Person",
+    "Date_Birth": "1809",
+    "Date_Death": "1882",
+    "Description": "Charles Darwin est un naturaliste britannique connu pour sa théorie de l'évolution des espèces par sélection naturelle. Il présente notamment ses recherches dans son ouvrage « De l'origine des espèces ».",
+    "ImagePath": "D:\\.NET C#\\Images\\Charles_Darwin,_English_naturlist,_colored.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 9,
+    "Name": "Louis Pasteur",
+    "Type": "Person",
+    "Date_Birth": "1822",
+    "Date_Death": "1895",
+    "Description": "Louis Pasteur est un scientifique français connu pour ses recherches en microbiologie. Il développe la pasteurisation et participe à la création de plusieurs vaccins, notamment celui contre la rage.",
+    "ImagePath": "D:\\.NET C#\\Images\\Louis_Pasteur.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 10,
+    "Name": "Galilée",
+    "Type": "Person",
+    "Date_Birth": "1564",
+    "Date_Death": "1642",
+    "Description": "Galilée est un astronome, physicien et mathématicien italien. Grâce à l'amélioration de la lunette astronomique, il réalise plusieurs observations qui soutiennent l'idée que la Terre tourne autour du Soleil.",
+    "ImagePath": "D:\\.NET C#\\Images\\Justus_Sustermans_-_Portrait_of_Galileo_Galilei,_1636.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 11,
+    "Name": "Léonard de Vinci",
+    "Type": "Person",
+    "Date_Birth": "1452",
+    "Date_Death": "1519",
+    "Description": "Léonard de Vinci est un artiste, inventeur et scientifique italien de la Renaissance. Il est notamment l'auteur de La Joconde et de La Cène, ainsi que de nombreux dessins et projets d'inventions.",
+    "ImagePath": "D:\\.NET C#\\Images\\Leonard_de.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 12,
+    "Name": "Nelson Mandela",
+    "Type": "Person",
+    "Date_Birth": "1918",
+    "Date_Death": "2013",
+    "Description": "Nelson Mandela est un homme politique sud-africain qui lutte contre le régime de l'apartheid. Après vingt-sept années d'emprisonnement, il devient président de l'Afrique du Sud en 1994.",
+    "ImagePath": "D:\\.NET C#\\Images\\Nelson_Mandela_1994.jpg",
     "IsDateVisible": false
   }
 ]
