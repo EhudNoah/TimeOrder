@@ -30,11 +30,10 @@
         {
             lblTitle = new Label();
             lblMode = new Label();
-            lblPlayer = new Label();
-            btnReady = new Button();
             btnStart = new Button();
             lblIpLobby = new Label();
-            chkReady = new CheckBox();
+            playerList = new CheckedListBox();
+            btnReady = new Button();
             SuspendLayout();
             // 
             // lblTitle
@@ -57,26 +56,6 @@
             lblMode.TabIndex = 1;
             lblMode.Text = "Mode";
             // 
-            // lblPlayer
-            // 
-            lblPlayer.AutoSize = true;
-            lblPlayer.Font = new Font("Cascadia Code", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            lblPlayer.Location = new Point(24, 119);
-            lblPlayer.Name = "lblPlayer";
-            lblPlayer.Size = new Size(56, 16);
-            lblPlayer.TabIndex = 2;
-            lblPlayer.Text = "Player1";
-            // 
-            // btnReady
-            // 
-            btnReady.Location = new Point(184, 116);
-            btnReady.Name = "btnReady";
-            btnReady.Size = new Size(75, 23);
-            btnReady.TabIndex = 3;
-            btnReady.Text = "Ready";
-            btnReady.UseVisualStyleBackColor = true;
-            btnReady.Click += btnReady_Click;
-            // 
             // btnStart
             // 
             btnStart.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -98,14 +77,23 @@
             lblIpLobby.TabIndex = 5;
             lblIpLobby.Text = "Ip Address";
             // 
-            // chkReady
+            // playerList
             // 
-            chkReady.AutoSize = true;
-            chkReady.Location = new Point(274, 121);
-            chkReady.Name = "chkReady";
-            chkReady.Size = new Size(15, 14);
-            chkReady.TabIndex = 6;
-            chkReady.UseVisualStyleBackColor = true;
+            playerList.FormattingEnabled = true;
+            playerList.Location = new Point(39, 58);
+            playerList.Name = "playerList";
+            playerList.Size = new Size(210, 310);
+            playerList.TabIndex = 7;
+            // 
+            // btnReady
+            // 
+            btnReady.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnReady.Location = new Point(39, 374);
+            btnReady.Name = "btnReady";
+            btnReady.Size = new Size(210, 38);
+            btnReady.TabIndex = 8;
+            btnReady.Text = "Ready";
+            btnReady.UseVisualStyleBackColor = true;
             // 
             // LobbyForm
             // 
@@ -113,11 +101,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(248, 195, 96);
             ClientSize = new Size(868, 522);
-            Controls.Add(chkReady);
+            Controls.Add(btnReady);
+            Controls.Add(playerList);
             Controls.Add(lblIpLobby);
             Controls.Add(btnStart);
-            Controls.Add(btnReady);
-            Controls.Add(lblPlayer);
             Controls.Add(lblMode);
             Controls.Add(lblTitle);
             Name = "LobbyForm";
@@ -130,10 +117,9 @@
 
         private Label lblTitle;
         private Label lblMode;
-        private Label lblPlayer;
-        private Button btnReady;
         private Button btnStart;
         private Label lblIpLobby;
-        private CheckBox chkReady;
+        private CheckedListBox playerList;
+        private Button btnReady;
     }
 }

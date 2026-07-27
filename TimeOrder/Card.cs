@@ -12,6 +12,7 @@ namespace TimeOrder
         public string Description { get; set; }
         public string ImagePath { get; set; }
         public bool IsDateVisible { get; set; }
+        public double Height { get; set; } = 0.0;
 
         public Card()
         {

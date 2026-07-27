@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             panelMain = new Panel();
+            txtPortNumber = new TextBox();
+            label1 = new Label();
             btnJoin = new Button();
             rbClient = new RadioButton();
             rbServer = new RadioButton();
@@ -43,6 +45,8 @@
             // panelMain
             // 
             panelMain.BackColor = Color.FromArgb(248, 195, 96);
+            panelMain.Controls.Add(txtPortNumber);
+            panelMain.Controls.Add(label1);
             panelMain.Controls.Add(btnJoin);
             panelMain.Controls.Add(rbClient);
             panelMain.Controls.Add(rbServer);
@@ -56,9 +60,26 @@
             panelMain.Size = new Size(884, 561);
             panelMain.TabIndex = 0;
             // 
+            // txtPortNumber
+            // 
+            txtPortNumber.Location = new Point(386, 289);
+            txtPortNumber.Name = "txtPortNumber";
+            txtPortNumber.Size = new Size(198, 23);
+            txtPortNumber.TabIndex = 10;
+            txtPortNumber.Text = "29170";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(273, 294);
+            label1.Name = "label1";
+            label1.Size = new Size(80, 15);
+            label1.TabIndex = 9;
+            label1.Text = "Port number: ";
+            // 
             // btnJoin
             // 
-            btnJoin.Location = new Point(405, 365);
+            btnJoin.Location = new Point(405, 405);
             btnJoin.Name = "btnJoin";
             btnJoin.Size = new Size(120, 30);
             btnJoin.TabIndex = 7;
@@ -69,7 +90,7 @@
             // rbClient
             // 
             rbClient.AutoSize = true;
-            rbClient.Location = new Point(470, 320);
+            rbClient.Location = new Point(470, 350);
             rbClient.Name = "rbClient";
             rbClient.Size = new Size(90, 19);
             rbClient.TabIndex = 6;
@@ -81,7 +102,7 @@
             // rbServer
             // 
             rbServer.AutoSize = true;
-            rbServer.Location = new Point(285, 320);
+            rbServer.Location = new Point(273, 350);
             rbServer.Name = "rbServer";
             rbServer.Size = new Size(91, 19);
             rbServer.TabIndex = 5;
@@ -157,5 +178,7 @@
         private Button btnJoin;
         private RadioButton rbClient;
         private RadioButton rbServer;
+        private TextBox txtPortNumber;
+        private Label label1;
     }
 }

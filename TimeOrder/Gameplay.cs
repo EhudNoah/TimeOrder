@@ -8,10 +8,7 @@ namespace TimeOrder
 {
     public partial class Gameplay : Form
     {
-        private Deck _deck;
-        private List<Player> _players = new List<Player>();
-
-
+        private Game _game;
         private List<Card> _timelineCards = new List<Card>();
 
         private Panel selectedCardPanel;
@@ -24,7 +21,7 @@ namespace TimeOrder
         private PictureBox pictureCardPreview;
 
 
-        public Gameplay(Deck deck, string username)
+        public Gameplay(Game game, string username)
         {
             InitializeComponent();
 
@@ -38,13 +35,11 @@ namespace TimeOrder
             this.Controls.Add(pictureCardPreview);
             pictureCardPreview.BringToFront();
 
-            _deck = deck;
+            _game = game;
 
             lblComment.Visible = false;
 
-            CreatePlayers(username);
-
-            _deck.Shuffle();
+            //CreatePlayers(username);
 
             DealCards(3);
 
@@ -53,21 +48,13 @@ namespace TimeOrder
             PrintDistributedCards();
         }
 
-        private void CreatePlayers(string username)
-        {
-            _players.Add(new Player(username));
-            _players.Add(new Player("Player 2"));
-            _players.Add(new Player("Player 3"));
-            _players.Add(new Player("Player 4"));
-        }
-
         private void DealCards(int cardsPerPlayer)
         {
             for (int i = 0; i < cardsPerPlayer; i++)
             {
-                for (int j = 0; j < _players.Count; j++)
+                for (int j = 0; j < _game.Players.Count; j++)
                 {
-                    _players[j].DrawCard(_deck);
+                    _game.Players[j].DrawCard(_game.Deck);
                 }
             }
         }
@@ -198,6 +185,8 @@ namespace TimeOrder
             control.MouseUp += CardMouseUp;
         }
 
+        
+
 
         private void CardMouseDown(object sender, MouseEventArgs e)
         {
@@ -205,6 +194,8 @@ namespace TimeOrder
             {
                 return;
             }
+
+            
 
 
             Control clickedControl = sender as Control;
@@ -297,6 +288,8 @@ namespace TimeOrder
                 return;
             }
 
+            
+
 
             if (selectedCardPanel == null)
             {
@@ -369,8 +362,8 @@ namespace TimeOrder
 
             // calculer x
             //  1955 - 1596 = 359
-            int firstYear = 1596;
-            int lastYear = 1955;
+            int firstYear = 1400;
+            int lastYear = 2013;
 
             int birthYear = int.Parse(selectedCard.Date_Birth);
             int deathYear = int.Parse(selectedCard.Date_Death);
@@ -394,6 +387,7 @@ namespace TimeOrder
             card.Size = new Size(textBoxWidth, 20);
             card.Left = textBoxLeft;
             card.Top = selectedCardPanel.Top;
+            selectedCard.Height = (double)selectedCardPanel.Top / panel2.Height;
             card.ReadOnly = true;
             card.TextAlign = HorizontalAlignment.Center;
 
@@ -408,11 +402,11 @@ namespace TimeOrder
 
             AddCardToTimeline(playedCard);
 
-            Player currentPlayer = _players[0];
+            Player currentPlayer = _game.Players[0];
 
             currentPlayer.RemoveCard(playedCard);
 
-            Card drawnCard = currentPlayer.DrawCard(_deck);
+            Card drawnCard = currentPlayer.DrawCard(_game.Deck);
 
             Console.WriteLine(currentPlayer.Name + " a joué : " + playedCard.Name);
 
@@ -425,7 +419,7 @@ namespace TimeOrder
                 Console.WriteLine("La pioche est vide.");
             }
 
-            Console.WriteLine("Cartes restantes dans la pioche : " + _deck.Count);
+            Console.WriteLine("Cartes restantes dans la pioche : " + _game.Deck.Count);
             Console.WriteLine();
 
             selectedCardPanel.Dispose();
@@ -560,15 +554,15 @@ namespace TimeOrder
             Console.WriteLine();
             Console.WriteLine("========== CARTES DISTRIBUÉES ==========");
 
-            for (int i = 0; i < _players.Count; i++)
+            for (int i = 0; i < _game.Players.Count; i++)
             {
-                Console.Write("Player " + (i + 1) + " (" + _players[i].Name + ") : ");
+                Console.Write("Player " + (i + 1) + " (" + _game.Players[i].Name + ") : ");
 
-                for (int j = 0; j < _players[i].Hand.Count; j++)
+                for (int j = 0; j < _game.Players[i].Hand.Count; j++)
                 {
-                    Console.Write(_players[i].Hand[j].Name);
+                    Console.Write(_game.Players[i].Hand[j].Name);
 
-                    if (j < _players[i].Hand.Count - 1)
+                    if (j < _game.Players[i].Hand.Count - 1)
                     {
                         Console.Write(", ");
                     }
@@ -577,7 +571,7 @@ namespace TimeOrder
                 Console.WriteLine();
             }
 
-            Console.WriteLine("Cartes restantes dans la pioche : " + _deck.Count);
+            Console.WriteLine("Cartes restantes dans la pioche : " + _game.Deck.Count);
             Console.WriteLine("========================================");
             Console.WriteLine();
         }
@@ -588,7 +582,7 @@ namespace TimeOrder
             ClearSlot(pnlSlot2);
             ClearSlot(pnlSlot3);
 
-            Player currentPlayer = _players[0];
+            Player currentPlayer = _game.Players[0];
 
             if (currentPlayer.Hand.Count > 0)
             {
@@ -615,15 +609,26 @@ namespace TimeOrder
         }
         private void UpdatePlayerLabels()
         {
-            pnlPlayer1.Text = _players[0].Name;
-            pnlPlayer2.Text = _players[1].Name;
-            pnlPlayer3.Text = _players[2].Name;
-            pnlPlayer4.Text = _players[3].Name;
+            pnlPlayer1.Text = _game.Players[0].Name;
+            pnlPlayer1Cards.Text = _game.Players[0].Score + " points |";
 
-            pnlPlayer1Cards.Text = _players[0].Hand.Count + " cartes |";
-            pnlPlayer2Cards.Text = _players[1].Hand.Count + " cartes |";
-            pnlPlayer3Cards.Text = _players[2].Hand.Count + " cartes |";
-            pnlPlayer4Cards.Text = _players[3].Hand.Count + " cartes";
+            if (_game.Players.Count >= 2)
+            {
+                pnlPlayer2.Text = _game.Players[1].Name;
+                pnlPlayer2Cards.Text = _game.Players[1].Score + " points |";
+            }
+
+            if (_game.Players.Count >= 3)
+            {
+                pnlPlayer3.Text = _game.Players[2].Name;
+                pnlPlayer3Cards.Text = _game.Players[2].Score + " points |";
+            }
+
+            if (_game.Players.Count >= 4)
+            {
+                pnlPlayer4.Text = _game.Players[3].Name;
+                pnlPlayer4Cards.Text = _game.Players[3].Score + " points";
+            }
         }
     }
 }

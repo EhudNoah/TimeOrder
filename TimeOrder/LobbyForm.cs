@@ -1,39 +1,59 @@
-﻿using System;
+﻿using Interop_Test.Interop;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Net.Quic;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Timer = System.Windows.Forms.Timer;
 
 namespace TimeOrder
 {
     public partial class LobbyForm : Form
     {
         public string _username { get; private set; }
-        private Deck _deck;     
+        private Game _game;
         private string _ip_address;
+        private ushort _port;
         private bool _is_Server;
-        private Dictionary<string, bool> _playersReady = new Dictionary<string, bool>();
         private List<Card> _cards;
-        public LobbyForm(string username, string ip_address, bool isServer, Deck deck)
+
+        private Server<Game>? _server;
+        private Client<Game> _client;
+        private Timer _timer;
+
+        public LobbyForm(string username, string ip_address, ushort port, bool isServer)
         {
             InitializeComponent();
 
+            _client = new Client<Game>(ip_address, port);
+
+            if (isServer)
+            {
+                _server = new Server<Game>(ip_address, port);
+                _server.Run();
+            }
+
+            _timer = new Timer();
+            _timer.Interval = 1000;
+            _timer.Tick += _timer_Tick;
+
             _username = username;
             _ip_address = ip_address;
+            _port = port;
             _is_Server = isServer;
-            _deck = deck;
 
             btnReady.Text = "Ready";
-            lblPlayer.Text = "Player 1 : " + _username;
-            _playersReady.Add(_username, false);
             btnStart.Visible = false;
-            chkReady.Checked = false;
+
+            _initGame();
 
             if (isServer)
             {
@@ -48,6 +68,44 @@ namespace TimeOrder
                 lblMode.Text = "Client Mode";
                 lblIpLobby.Text = "Ip Address: " + _ip_address.Trim();
             }
+
+            btnReady.Click += btnReady_Click;
+        }
+
+        private async void _initGame()
+        {
+            _game = await _client.Shake() ?? new();
+
+            _game.Players.Add(new Player(_username));
+
+            var g = _client.Send(_game);
+
+            _timer.Start();
+        }
+
+        private async void _timer_Tick(object? sender, EventArgs e)
+        {
+            _timer.Stop();
+
+            try
+            {
+                var game = await _client.Shake();
+               
+                if (game != null)
+                {
+                    _game = game;
+                    _updateUI();
+                    if (!_is_Server
+                        && _game.IsStarted)
+                    {
+                        btnStart_Click(this, EventArgs.Empty);
+                    }
+                }
+            }
+            finally
+            {
+                _timer.Start();
+            }
         }
 
         private void btnReady_Click(object sender, EventArgs e)
@@ -56,24 +114,36 @@ namespace TimeOrder
             {
                 btnReady.Text = "Unready";
                 btnReady.Enabled = true;
-                _playersReady[_username] = true;
-                chkReady.Checked = true;
-
+                Player p = _game.Players.First(player => player.Name == _username);
+                p.Status = Status.Active;
             }
             else
             {
                 btnReady.Text = "Ready";
                 btnReady.Enabled = true;
-                _playersReady[_username] = false;
-                chkReady.Checked = false;
+                Player p = _game.Players.First(player => player.Name == _username);
+                p.Status = Status.Wainting;
             }
+
+            _ = _client.Send(_game);
+        }
+
+        private void _updateUI()
+        {
+            playerList.Items.Clear();
+
+            foreach (var player in _game.Players)
+            {
+                playerList.Items.Add(player.Name, player.Status == Status.Active);
+            }
+
             UpdateStartButton();
         }
 
 
         private void UpdateStartButton()
         {
-            bool allPlayersReady = _playersReady.All(player => player.Value == true);
+            bool allPlayersReady = _game.Players.All(player => player.Status == Status.Active);
 
             if (_is_Server && allPlayersReady)
             {
@@ -87,19 +157,27 @@ namespace TimeOrder
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (_deck.Count < 12)
+            if (_game.Deck.Count < 12)
             {
                 MessageBox.Show("Il faut au moins 12 cartes pour distribuer 3 cartes à 4 joueurs.");
                 return;
             }
 
-            Gameplay gameplay = new Gameplay(_deck, _username);
+            Gameplay gameplay = new Gameplay(_game, _username);
 
             this.Hide();
 
             gameplay.FormClosed += (s, args) => this.Close();
 
             gameplay.Show();
+
+            if (_is_Server)
+            {
+                _game.IsStarted = true;
+                _game.ShareCards();
+
+                _ = _client.Send(_game);
+            }
         }
     }
 }

@@ -2,13 +2,9 @@ namespace TimeOrder
 {
     public partial class Form1 : Form
     {
-        private Deck _deck;
-
-        public Form1(Deck deck)
+        public Form1()
         {
             InitializeComponent();
-
-            _deck = deck;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -23,7 +19,7 @@ namespace TimeOrder
             {
                 txtIpAddress.Text = "";
                 txtIpAddress.ReadOnly = true;
-                txtIpAddress.Text = "192.168.001.001";
+                txtIpAddress.Text = "127.0.0.1";
                 btnJoin.Text = "Start";
             }
             else
@@ -48,6 +44,7 @@ namespace TimeOrder
         {
             string username = txtUsername.Text.Trim();
             string ipAddress = txtIpAddress.Text.Trim().Replace(" ", "");
+            ushort.TryParse(txtPortNumber.Text.Trim(), out ushort portNumber);
 
             if (username == "")
             {
@@ -57,7 +54,7 @@ namespace TimeOrder
 
             if (rbServer.Checked)
             {
-                LobbyForm lobby = new LobbyForm(username, ipAddress, true, _deck);
+                LobbyForm lobby = new LobbyForm(username, ipAddress, portNumber, true);
 
                 this.Hide();
                 lobby.FormClosed += (s, args) => this.Close();
@@ -71,13 +68,13 @@ namespace TimeOrder
                     return;
                 }
 
-                if (!IsValidIpAddress(ipAddress))
-                {
-                    MessageBox.Show("Please enter a valid IP address like 192.168.001.001");
-                    return;
-                }
+                //if (!IsValidIpAddress(ipAddress))
+                //{
+                //    MessageBox.Show("Please enter a valid IP address like 192.168.001.001");
+                //    return;
+                //}
 
-                LobbyForm lobby = new LobbyForm(username, ipAddress, false, _deck);
+                LobbyForm lobby = new LobbyForm(username, ipAddress, portNumber, false);
 
                 this.Hide();
                 lobby.FormClosed += (s, args) => this.Close();

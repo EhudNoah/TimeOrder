@@ -4,8 +4,10 @@ namespace TimeOrder
 {
     public class Player
     {
-        public string Name { get; private set; }
-        public List<Card> Hand { get; private set; }
+        public string Name { get; set; }
+        public List<Card> Hand { get; set; }
+        public Status Status { get; set; } = Status.Wainting;
+        public int Score { get; set; } = 0;
 
         public Player(string name)
         {

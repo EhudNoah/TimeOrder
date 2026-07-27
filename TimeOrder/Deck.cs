@@ -8,23 +8,26 @@ namespace TimeOrder
 {
     public class Deck
     {
-        private List<Card> _cards;
+        public List<Card> Cards { get; set; }
         private Random _random;
-
-        public List<Card> AllCards { get; private set; }
 
         public int Count
         {
             get
             {
-                return _cards.Count;
+                return Cards.Count;
             }
+        }
+
+        public Deck()
+        {
+            Cards = new List<Card>();
+            _random = new Random();
         }
 
         public Deck(List<Card> cards)
         {
-            AllCards = new List<Card>(cards);
-            _cards = new List<Card>(cards);
+            Cards = new List<Card>(cards);
             _random = new Random();
         }
 
@@ -101,7 +104,10 @@ namespace TimeOrder
                     }
                 }
 
-                return new Deck(validCards);
+                Deck deck = new Deck(validCards);
+                deck.Shuffle();
+
+                return deck;
             }
             catch (JsonException exception)
             {
@@ -147,26 +153,26 @@ namespace TimeOrder
 
         public void Shuffle()
         {
-            for (int i = _cards.Count - 1; i > 0; i--)
+            for (int i = Cards.Count - 1; i > 0; i--)
             {
                 int randomIndex = _random.Next(0, i + 1);
 
-                Card temporaryCard = _cards[i];
-                _cards[i] = _cards[randomIndex];
-                _cards[randomIndex] = temporaryCard;
+                Card temporaryCard = Cards[i];
+                Cards[i] = Cards[randomIndex];
+                Cards[randomIndex] = temporaryCard;
             }
         }
 
         public Card DrawCard()
         {
-            if (_cards.Count == 0)
+            if (Cards.Count == 0)
             {
                 return null;
             }
 
-            Card card = _cards[0];
+            Card card = Cards[0];
 
-            _cards.RemoveAt(0);
+            Cards.RemoveAt(0);
 
             return card;
         }

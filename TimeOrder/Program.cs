@@ -7,9 +7,7 @@ namespace TimeOrder
         {
             ApplicationConfiguration.Initialize();
 
-            Deck deck = Deck.LoadFromJson("./data.json");
-
-            Application.Run(new Form1(deck));
+            Application.Run(new Form1());
         }
     }
 }
