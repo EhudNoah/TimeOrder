@@ -386,6 +386,9 @@ namespace TimeOrder
             card.Text = selectedCard.Name;
             card.Size = new Size(textBoxWidth, 20);
             card.Left = textBoxLeft;
+            if (selectedCardPanel.Top > 315) {
+                selectedCardPanel.Top = 315;
+            }
             card.Top = selectedCardPanel.Top;
             selectedCard.Height = (double)selectedCardPanel.Top / panel2.Height;
             card.ReadOnly = true;
