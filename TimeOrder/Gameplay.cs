@@ -31,6 +31,8 @@ namespace TimeOrder
         public Gameplay(Game game, string username, Server<Game>? server, Client<Game> client)
         {
             InitializeComponent();
+            pnlBottom.Resize += PnlBottomResize;
+            ResizeBottomSlots();
 
             pictureCardPreview = new PictureBox();
 
@@ -66,6 +68,33 @@ namespace TimeOrder
             DisplayCurrentPlayerHand();
             UpdatePlayerLabels();
             PrintDistributedCards();
+        }
+        private void PnlBottomResize(object sender, EventArgs e)
+        {
+            ResizeBottomSlots();
+        }
+
+        private void ResizeBottomSlots()
+        {
+            int slotWidth = pnlBottom.ClientSize.Width * 12 / 100;
+            int sectionWidth = pnlBottom.ClientSize.Width / 3;
+            int topPosition = 9;
+
+            pnlSlot1.Width = slotWidth;
+            pnlSlot2.Width = slotWidth;
+            pnlSlot3.Width = slotWidth;
+
+            pnlSlot1.Left = (sectionWidth - pnlSlot1.Width) / 2;
+
+            pnlSlot2.Left = sectionWidth
+                + (sectionWidth - pnlSlot2.Width) / 2;
+
+            pnlSlot3.Left = sectionWidth * 2
+                + (sectionWidth - pnlSlot3.Width) / 2;
+
+            pnlSlot1.Top = topPosition;
+            pnlSlot2.Top = topPosition;
+            pnlSlot3.Top = topPosition;
         }
 
         private async void _timer_Tick(object sender, EventArgs e)
