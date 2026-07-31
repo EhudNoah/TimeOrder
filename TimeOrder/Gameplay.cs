@@ -33,6 +33,7 @@ namespace TimeOrder
             InitializeComponent();
             pnlBottom.Resize += PnlBottomResize;
             panel1.Resize += Panel1Resize;
+            Resize += GameplayResize;
 
             ResizeBottomSlots();
             ResizePlayerLabels();
@@ -71,6 +72,25 @@ namespace TimeOrder
             DisplayCurrentPlayerHand();
             UpdatePlayerLabels();
             PrintDistributedCards();
+        }
+        private void GameplayResize(object sender, EventArgs e)
+        {
+            PositionCommentLabel();
+        }
+        private void PositionCommentLabel()
+        {
+            int rightMargin = 10;
+            int bottomPanelMargin = 10;
+
+            lblComment.Left =
+                ClientSize.Width
+                - lblComment.Width
+                - rightMargin;
+
+            lblComment.Top =
+                pnlBottom.Top
+                - lblComment.Height
+                - bottomPanelMargin;
         }
         private void PnlBottomResize(object sender, EventArgs e)
         {
@@ -394,7 +414,7 @@ namespace TimeOrder
             lblComment.Text =
                 "Vous déplacez la carte : "
                 + selectedCard.Name;
-
+            PositionCommentLabel();
             lblComment.BringToFront();
         }
 
@@ -438,7 +458,7 @@ namespace TimeOrder
                 + selectedCardPanel.Left
                 + " | Y : "
                 + selectedCardPanel.Top;
-
+            PositionCommentLabel();
             lblComment.BringToFront();
         }
 
@@ -484,7 +504,7 @@ namespace TimeOrder
                 + selectedCardPanel.Left
                 + " | Y : "
                 + selectedCardPanel.Top;
-
+            PositionCommentLabel();
             lblComment.BringToFront();
 
 
@@ -649,7 +669,7 @@ namespace TimeOrder
 
                 lblComment.Text =
                     "Cette carte est déjà sur la timeline.";
-
+                PositionCommentLabel();
                 return;
             }
 
@@ -682,7 +702,7 @@ namespace TimeOrder
                         "La carte : "
                         + card.Name
                         + " est dans le mauvais ordre !";
-
+                    PositionCommentLabel();
                     return false;
                 }
             }
