@@ -32,7 +32,10 @@ namespace TimeOrder
         {
             InitializeComponent();
             pnlBottom.Resize += PnlBottomResize;
+            panel1.Resize += Panel1Resize;
+
             ResizeBottomSlots();
+            ResizePlayerLabels();
 
             pictureCardPreview = new PictureBox();
 
@@ -95,6 +98,69 @@ namespace TimeOrder
             pnlSlot1.Top = topPosition;
             pnlSlot2.Top = topPosition;
             pnlSlot3.Top = topPosition;
+        }
+        private void Panel1Resize(object sender, EventArgs e)
+        {
+            ResizePlayerLabels();
+        }
+
+        private void ResizePlayerLabels()
+        {
+            int sectionWidth = panel1.ClientSize.Width / 4;
+            int spaceBetweenLabels = 15;
+            int topPosition = 12;
+
+            PositionPlayerLabels(
+                pnlPlayer1,
+                pnlPlayer1Cards,
+                0,
+                sectionWidth,
+                spaceBetweenLabels,
+                topPosition
+            );
+
+            PositionPlayerLabels(
+                pnlPlayer2,
+                pnlPlayer2Cards,
+                sectionWidth,
+                sectionWidth,
+                spaceBetweenLabels,
+                topPosition
+            );
+
+            PositionPlayerLabels(
+                pnlPlayer3,
+                pnlPlayer3Cards,
+                sectionWidth * 2,
+                sectionWidth,
+                spaceBetweenLabels,
+                topPosition
+            );
+
+            PositionPlayerLabels(
+                pnlPlayer4,
+                pnlPlayer4Cards,
+                sectionWidth * 3,
+                sectionWidth,
+                spaceBetweenLabels,
+                topPosition
+            );
+        }
+
+        private void PositionPlayerLabels(Label playerLabel, Label cardsLabel, int sectionLeft, int sectionWidth, int spaceBetweenLabels, int topPosition)
+        {
+            int totalWidth = playerLabel.Width
+                + spaceBetweenLabels
+                + cardsLabel.Width;
+
+            int groupLeft = sectionLeft
+                + (sectionWidth - totalWidth) / 2;
+
+            playerLabel.Left = groupLeft;
+            playerLabel.Top = topPosition;
+
+            cardsLabel.Left = playerLabel.Right + spaceBetweenLabels;
+            cardsLabel.Top = topPosition + 2;
         }
 
         private async void _timer_Tick(object sender, EventArgs e)
