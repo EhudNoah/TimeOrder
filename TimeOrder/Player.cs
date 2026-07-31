@@ -6,7 +6,7 @@ namespace TimeOrder
     {
         public string Name { get; set; }
         public List<Card> Hand { get; set; }
-        public Status Status { get; set; } = Status.Wainting;
+        public Status Status { get; set; } = Status.Waiting;
         public int Score { get; set; } = 0;
 
         public Player(string name)

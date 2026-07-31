@@ -1,15 +1,22 @@
-﻿using System;
+﻿using Interop_Test.Interop;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace TimeOrder
 {
     public partial class Gameplay : Form
     {
         private Game _game;
+        private Player _player;
+        Server<Game>? _server;
+        Client<Game> _client;
+        bool _isServer;
         private List<Card> _timelineCards = new List<Card>();
+        private Timer _timer;
 
         private Panel selectedCardPanel;
         private Card selectedCard;
@@ -21,7 +28,7 @@ namespace TimeOrder
         private PictureBox pictureCardPreview;
 
 
-        public Gameplay(Game game, string username)
+        public Gameplay(Game game, string username, Server<Game>? server, Client<Game> client)
         {
             InitializeComponent();
 
@@ -36,29 +43,51 @@ namespace TimeOrder
             pictureCardPreview.BringToFront();
 
             _game = game;
+            _player = _game.Players.First(p => p.Name == username);
+            _server = server;
+            _client = client;
+            _isServer = _server is not null;
+
+            _timer = new Timer();
+            _timer.Interval = 500;
+            _timer.Tick += _timer_Tick;
+
+            if (_player.Status != Status.Active)
+            {
+                _timer.Start();
+            }
 
             lblComment.Visible = false;
 
             //CreatePlayers(username);
 
-            DealCards(3);
+            //DealCards(3);
 
             DisplayCurrentPlayerHand();
             UpdatePlayerLabels();
             PrintDistributedCards();
         }
 
-        private void DealCards(int cardsPerPlayer)
+        private async void _timer_Tick(object sender, EventArgs e)
         {
-            for (int i = 0; i < cardsPerPlayer; i++)
+            _timer.Stop();
+
+            Game game = await _client.Shake();
+
+            if (game != null)
             {
-                for (int j = 0; j < _game.Players.Count; j++)
+                _game = game;
+                _player = _game.Players.First(p => p.Name == _player.Name);
+                _drawGamePlan();
+
+                if (_player.Status == Status.Active)
                 {
-                    _game.Players[j].DrawCard(_game.Deck);
+                    return;
                 }
             }
-        }
 
+            _timer.Start();
+        }
 
         public void DisplaySmallCard(Card card, Panel slot)
         {
@@ -177,7 +206,6 @@ namespace TimeOrder
             slot.Controls.Add(panelCard);
         }
 
-
         private void AddDragEvents(Control control)
         {
             control.MouseDown += CardMouseDown;
@@ -185,18 +213,13 @@ namespace TimeOrder
             control.MouseUp += CardMouseUp;
         }
 
-        
-
-
         private void CardMouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
+            if (_player.Status != Status.Active
+                || e.Button != MouseButtons.Left)
             {
                 return;
             }
-
-            
-
 
             Control clickedControl = sender as Control;
 
@@ -288,7 +311,7 @@ namespace TimeOrder
                 return;
             }
 
-            
+
 
 
             if (selectedCardPanel == null)
@@ -327,6 +350,15 @@ namespace TimeOrder
 
         private void CardMouseUp(object sender, MouseEventArgs e)
         {
+            Point cardLocation = ((Control)sender).Location;
+            Point mouseLocation = new Point(cardLocation.X + e.X, cardLocation.Y + e.Y);
+
+            if (!timePlan.DisplayRectangle.Contains(mouseLocation))
+            {
+                dragging = false;
+                return;
+            }
+
             if (dragging == false)
             {
                 return;
@@ -360,62 +392,22 @@ namespace TimeOrder
 
             lblComment.BringToFront();
 
-            // calculer x
-            //  1955 - 1596 = 359
-            int firstYear = 1400;
-            int lastYear = 2013;
-
-            int birthYear = int.Parse(selectedCard.Date_Birth);
-            int deathYear = int.Parse(selectedCard.Date_Death);
-
-            int totalYears = lastYear - firstYear;
-            int lifeDuration = deathYear - birthYear;
-
-            float pixelsPerYear = (float)panel2.Width / totalYears;
-
-            int textBoxLeft = (int)((birthYear - firstYear) * pixelsPerYear);
-            int textBoxWidth = (int)(lifeDuration * pixelsPerYear);
-
-            if (textBoxWidth < 40)
-            {
-                textBoxWidth = 40;
-            }
-
-            TextBox card = new TextBox();
-
-            card.Text = selectedCard.Name;
-            card.Size = new Size(textBoxWidth, 20);
-            card.Left = textBoxLeft;
-            if (selectedCardPanel.Top > 315) {
-                selectedCardPanel.Top = 315;
-            }
-            card.Top = selectedCardPanel.Top;
-            selectedCard.Height = (double)selectedCardPanel.Top / panel2.Height;
-            card.ReadOnly = true;
-            card.TextAlign = HorizontalAlignment.Center;
-
-            card.Tag = selectedCard;
-
-            card.MouseEnter += TextBoxCardMouseEnter;
-            card.MouseLeave += TextBoxCardMouseLeave;
-
-            panel2.Controls.Add(card);
 
             Card playedCard = selectedCard;
 
             AddCardToTimeline(playedCard);
+            _player.RemoveCard(playedCard);
+            _game.PlayedCards.Add(playedCard);
 
-            Player currentPlayer = _game.Players[0];
+            playedCard.Height = (double)selectedCardPanel.Top / timePlan.Height;
 
-            currentPlayer.RemoveCard(playedCard);
+            Card drawnCard = _player.DrawCard(_game.Deck);
 
-            Card drawnCard = currentPlayer.DrawCard(_game.Deck);
-
-            Console.WriteLine(currentPlayer.Name + " a joué : " + playedCard.Name);
+            Console.WriteLine(_player.Name + " a joué : " + playedCard.Name);
 
             if (drawnCard != null)
             {
-                Console.WriteLine(currentPlayer.Name + " a pioché : " + drawnCard.Name);
+                Console.WriteLine(_player.Name + " a pioché : " + drawnCard.Name);
             }
             else
             {
@@ -430,8 +422,63 @@ namespace TimeOrder
             selectedCardPanel = null;
             selectedCard = null;
 
+            _drawGamePlan();
             DisplayCurrentPlayerHand();
             UpdatePlayerLabels();
+
+            _player.Status = Status.Waiting;
+            int index = (_game.Players.FindIndex(p => p.Name == _player.Name) + 1) % _game.Players.Count;
+
+            _game.Players[index].Status = Status.Active;
+
+            _ = _client.Send(_game);
+
+            _timer.Start();
+        }
+
+        private void _drawGamePlan()
+        {
+            timePlan.Controls.Clear();
+
+            foreach (Card card in _game.PlayedCards)
+            {
+                // calculer x
+                //  1955 - 1596 = 359
+                int firstYear = _game.Deck.Min;
+                int lastYear = _game.Deck.Max;
+
+                int birthYear = card.Date_Birth;
+                int deathYear = card.Date_Death;
+
+                int totalYears = lastYear - firstYear;
+                int lifeDuration = deathYear - birthYear;
+
+                float pixelsPerYear = (float)timePlan.Width / totalYears;
+
+                int textBoxLeft = (int)((birthYear - firstYear) * pixelsPerYear);
+                int textBoxWidth = (int)(lifeDuration * pixelsPerYear);
+
+                if (textBoxWidth < 40)
+                {
+                    textBoxWidth = 40;
+                }
+
+                TextBox cardTB = new TextBox();
+
+                cardTB.Text = card.Name;
+                cardTB.Size = new Size(textBoxWidth, 20);
+                cardTB.Left = textBoxLeft;
+                cardTB.Top = (int)(card.Height * timePlan.Height);
+                cardTB.ReadOnly = true;
+                cardTB.TextAlign = HorizontalAlignment.Center;
+
+                cardTB.Tag = card;
+
+                cardTB.MouseEnter += TextBoxCardMouseEnter;
+                cardTB.MouseLeave += TextBoxCardMouseLeave;
+
+                timePlan.Controls.Add(cardTB);
+            }
         }
 
 
@@ -524,16 +571,12 @@ namespace TimeOrder
 
         public bool CheckOrder(Card card)
         {
-            int cardYear = int.Parse(
-                card.Date_Birth
-            );
+            int cardYear = card.Date_Birth;
 
 
             for (int i = 0; i < _timelineCards.Count; i++)
             {
-                int timelineYear = int.Parse(
-                    _timelineCards[i].Date_Birth
-                );
+                int timelineYear = _timelineCards[i].Date_Birth;
 
 
                 if (cardYear < timelineYear)
@@ -579,27 +622,25 @@ namespace TimeOrder
             Console.WriteLine();
         }
 
-        private void DisplayCurrentPlayerHand()
+        public void DisplayCurrentPlayerHand()
         {
             ClearSlot(pnlSlot1);
             ClearSlot(pnlSlot2);
             ClearSlot(pnlSlot3);
 
-            Player currentPlayer = _game.Players[0];
-
-            if (currentPlayer.Hand.Count > 0)
+            if (_player.Hand.Count > 0)
             {
-                DisplaySmallCard(currentPlayer.Hand[0], pnlSlot1);
+                DisplaySmallCard(_player.Hand[0], pnlSlot1);
             }
 
-            if (currentPlayer.Hand.Count > 1)
+            if (_player.Hand.Count > 1)
             {
-                DisplaySmallCard(currentPlayer.Hand[1], pnlSlot2);
+                DisplaySmallCard(_player.Hand[1], pnlSlot2);
             }
 
-            if (currentPlayer.Hand.Count > 2)
+            if (_player.Hand.Count > 2)
             {
-                DisplaySmallCard(currentPlayer.Hand[2], pnlSlot3);
+                DisplaySmallCard(_player.Hand[2], pnlSlot3);
             }
         }
 

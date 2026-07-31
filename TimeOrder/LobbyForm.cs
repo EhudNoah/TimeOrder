@@ -19,6 +19,7 @@ namespace TimeOrder
     public partial class LobbyForm : Form
     {
         public string _username { get; private set; }
+        private bool _gameplayOpened;
         private Game _game;
         private string _ip_address;
         private ushort _port;
@@ -74,37 +75,41 @@ namespace TimeOrder
 
         private async void _initGame()
         {
-            _game = await _client.Shake() ?? new();
+            _game = await _client.Shake() ?? new Game();
 
             _game.Players.Add(new Player(_username));
 
-            var g = _client.Send(_game);
+            await _client.Send(_game);
 
             _timer.Start();
         }
 
-        private async void _timer_Tick(object? sender, EventArgs e)
+        private async void _timer_Tick(object sender, EventArgs e)
         {
             _timer.Stop();
 
             try
             {
-                var game = await _client.Shake();
-               
+                Game game = await _client.Shake();
+
                 if (game != null)
                 {
                     _game = game;
+
                     _updateUI();
-                    if (!_is_Server
-                        && _game.IsStarted)
+
+                    if (_is_Server == false && _game.IsStarted)
                     {
-                        btnStart_Click(this, EventArgs.Empty);
+                        OpenGameplay();
                     }
                 }
             }
             finally
             {
-                _timer.Start();
+                if (_gameplayOpened == false)
+                {
+                    _timer.Start();
+                }
             }
         }
 
@@ -122,7 +127,7 @@ namespace TimeOrder
                 btnReady.Text = "Ready";
                 btnReady.Enabled = true;
                 Player p = _game.Players.First(player => player.Name == _username);
-                p.Status = Status.Wainting;
+                p.Status = Status.Waiting;
             }
 
             _ = _client.Send(_game);
@@ -155,29 +160,60 @@ namespace TimeOrder
             }
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+        private async void btnStart_Click(object sender, EventArgs e)
         {
-            if (_game.Deck.Count < 12)
+            if (_is_Server == false)
             {
-                MessageBox.Show("Il faut au moins 12 cartes pour distribuer 3 cartes à 4 joueurs.");
                 return;
             }
 
-            Gameplay gameplay = new Gameplay(_game, _username);
+            int cardsPerPlayer = 3;
+            int requiredCards = _game.Players.Count * cardsPerPlayer;
+
+            if (_game.Deck.Count < requiredCards)
+            {
+                MessageBox.Show(
+                    "Il faut au moins "
+                    + requiredCards
+                    + " cartes pour distribuer "
+                    + cardsPerPlayer
+                    + " cartes à "
+                    + _game.Players.Count
+                    + " joueurs."
+                );
+
+                return;
+            }
+
+            _timer.Stop();
+
+            _game.ShareCards(cardsPerPlayer);
+            _game.Players.ForEach(player => player.Status = Status.Waiting);
+            _game.Players.First(player => player.Name == _username).Status = Status.Active;
+
+            _game.IsStarted = true;
+
+            await _client.Send(_game);
+
+            OpenGameplay();
+        }
+
+        private void OpenGameplay()
+        {
+            if (_gameplayOpened == true)
+            {
+                return;
+            }
+
+            _gameplayOpened = true;
+
+            Gameplay gameplay = new Gameplay(_game, _username, _server, _client);
 
             this.Hide();
 
-            gameplay.FormClosed += (s, args) => this.Close();
+            gameplay.FormClosed += (sender, e) => this.Close();
 
             gameplay.Show();
-
-            if (_is_Server)
-            {
-                _game.IsStarted = true;
-                _game.ShareCards();
-
-                _ = _client.Send(_game);
-            }
         }
     }
 }

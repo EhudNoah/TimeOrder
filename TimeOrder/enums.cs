@@ -8,7 +8,7 @@ namespace TimeOrder
 {
     public enum Status
     {
-        Wainting,
+        Waiting,
         Active,
     }
 }

@@ -7,8 +7,8 @@ namespace TimeOrder
         public int id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-        public string Date_Birth { get; set; }
-        public string Date_Death { get; set; }
+        public ushort Date_Birth { get; set; }
+        public ushort Date_Death { get; set; }
         public string Description { get; set; }
         public string ImagePath { get; set; }
         public bool IsDateVisible { get; set; }
@@ -18,13 +18,13 @@ namespace TimeOrder
         {
             Name = "";
             Type = "";
-            Date_Birth = "";
-            Date_Death = "";
+            Date_Birth = 0;
+            Date_Death = 0;
             Description = "";
             ImagePath = "";
         }
 
-        public Card(int id, string name, string type, string date_birth, string date_death, string description, string imagePath, bool isDateVisible)
+        public Card(int id, string name, string type, ushort date_birth, ushort date_death, string description, string imagePath, bool isDateVisible)
         {
             this.id = id;
             Name = name;

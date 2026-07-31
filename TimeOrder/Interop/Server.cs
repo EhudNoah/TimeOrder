@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace Interop_Test.Interop
 {
-   internal class Server<T>(string ipAddress, ushort port) : IDisposable where T : new()
+   public class Server<T>(string ipAddress, ushort port) : IDisposable where T : new()
    {
       public string IpAddress { get; private set; } = ipAddress;
       public ushort Port { get; private set; } = port;

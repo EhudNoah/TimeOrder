@@ -13,9 +13,9 @@ namespace TimeOrder
         public List<Card> PlayedCards { get; set; } = new List<Card>();
         public bool IsStarted { get; set; } = false;
 
-        public void ShareCards()
+        public void ShareCards(int cardsPerPlayer)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < cardsPerPlayer; i++)
             {
                 foreach (Player player in Players)
                 {

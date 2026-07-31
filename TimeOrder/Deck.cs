@@ -18,6 +18,8 @@ namespace TimeOrder
                 return Cards.Count;
             }
         }
+        public int Min { get; set; }
+        public int Max { get; set; }
 
         public Deck()
         {
@@ -29,6 +31,8 @@ namespace TimeOrder
         {
             Cards = new List<Card>(cards);
             _random = new Random();
+            Min = cards.Select(card => card.Date_Birth).Min() - 10;
+            Max = cards.Select(card => card.Date_Death).Max() + 10;
         }
 
         public static Deck LoadFromJson(string filePath)
@@ -76,12 +80,12 @@ namespace TimeOrder
 
                     if (card.Date_Birth == null)
                     {
-                        card.Date_Birth = "";
+                        card.Date_Birth = 0;
                     }
 
                     if (card.Date_Death == null)
                     {
-                        card.Date_Death = "";
+                        card.Date_Death = 0;
                     }
 
                     if (card.Description == null)
@@ -133,17 +137,17 @@ namespace TimeOrder
                 return false;
             }
 
-            if (int.TryParse(card.Date_Birth, out int birthYear) == false)
+            if (card.Date_Birth == 0)
             {
                 return false;
             }
 
-            if (int.TryParse(card.Date_Death, out int deathYear) == false)
+            if (card.Date_Death == 0)
             {
                 return false;
             }
 
-            if (deathYear < birthYear)
+            if (card.Date_Death < card.Date_Birth)
             {
                 return false;
             }

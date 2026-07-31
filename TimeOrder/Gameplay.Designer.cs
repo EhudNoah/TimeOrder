@@ -48,7 +48,7 @@
             pnlPlayer4Cards = new Label();
             lblComment = new Label();
             panel1 = new Panel();
-            panel2 = new Panel();
+            timePlan = new Panel();
             pnlBottom.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -200,18 +200,18 @@
             // 
             // panel2
             // 
-            panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(0, 44);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(868, 339);
-            panel2.TabIndex = 13;
+            timePlan.Dock = DockStyle.Fill;
+            timePlan.Location = new Point(0, 44);
+            timePlan.Name = "panel2";
+            timePlan.Size = new Size(868, 339);
+            timePlan.TabIndex = 13;
             // 
             // Gameplay
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(868, 522);
-            Controls.Add(panel2);
+            Controls.Add(timePlan);
             Controls.Add(lblComment);
             Controls.Add(pnlBottom);
             Controls.Add(panel1);
@@ -249,6 +249,6 @@
         private Label lblComment;
 
         private Panel panel1;
-        private Panel panel2;
+        private Panel timePlan;
     }
 }
