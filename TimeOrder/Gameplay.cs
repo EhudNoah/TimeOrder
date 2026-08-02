@@ -77,6 +77,42 @@ namespace TimeOrder
         {
             PositionCommentLabel();
         }
+        public void DisplayPlayers()
+        {
+            if (_game.Players.Count >= 1)
+            {
+                if (_game.Players[0].Status == Status.Active)
+                {
+                    pnlPlayer1.Text = _game.Players[0].Name + " 🟢";
+                }
+            }
+
+            if (_game.Players.Count >= 2)
+            {
+                if (_game.Players[1].Status == Status.Active)
+                {
+                    pnlPlayer2.Text = _game.Players[1].Name + " 🟢";
+                }
+            }
+
+            if (_game.Players.Count >= 3)
+            {
+                if (_game.Players[2].Status == Status.Active)
+                {
+                    pnlPlayer3.Text = _game.Players[2].Name + " 🟢";
+                }
+            }
+
+            if (_game.Players.Count >= 4)
+            {
+                if (_game.Players[3].Status == Status.Active)
+                {
+                    pnlPlayer4.Text = _game.Players[3].Name + " 🟢";
+                }
+            }
+
+            ResizePlayerLabels();
+        }
         private void PositionCommentLabel()
         {
             int rightMargin = 10;
@@ -194,9 +230,9 @@ namespace TimeOrder
                 _game = game;
                 _player = _game.Players.First(p => p.Name == _player.Name);
                 _drawGamePlan();
-
                 if (_player.Status == Status.Active)
                 {
+                    DisplayPlayers();
                     return;
                 }
             }
