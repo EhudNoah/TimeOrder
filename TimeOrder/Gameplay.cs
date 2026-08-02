@@ -230,6 +230,9 @@ namespace TimeOrder
                 _game = game;
                 _player = _game.Players.First(p => p.Name == _player.Name);
                 _drawGamePlan();
+                DisplayCurrentPlayerHand();
+                UpdatePlayerLabels();
+                DisplayPlayers();
                 if (_player.Status == Status.Active)
                 {
                     DisplayPlayers();
