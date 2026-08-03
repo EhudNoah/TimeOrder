@@ -31,6 +31,9 @@ namespace TimeOrder
         public Gameplay(Game game, string username, Server<Game>? server, Client<Game> client)
         {
             InitializeComponent();
+            
+            Text += " - " + username;
+
             pnlBottom.Resize += PnlBottomResize;
             panel1.Resize += Panel1Resize;
             Resize += GameplayResize;
@@ -576,8 +579,6 @@ namespace TimeOrder
             selectedCardPanel = null;
             selectedCard = null;
 
-            _drawGamePlan();
-            DisplayCurrentPlayerHand();
             UpdatePlayerLabels();
 
             _player.Status = Status.Waiting;
@@ -592,6 +593,8 @@ namespace TimeOrder
 
         private void _drawGamePlan()
         {
+            timePlan.SuspendLayout();
+
             timePlan.Controls.Clear();
 
             foreach (Card card in _game.PlayedCards)
@@ -633,6 +636,8 @@ namespace TimeOrder
 
                 timePlan.Controls.Add(cardTB);
             }
+
+            timePlan.ResumeLayout();
         }
 
 
@@ -778,9 +783,13 @@ namespace TimeOrder
 
         public void DisplayCurrentPlayerHand()
         {
-            ClearSlot(pnlSlot1);
-            ClearSlot(pnlSlot2);
-            ClearSlot(pnlSlot3);
+            pnlSlot1.SuspendLayout();
+            pnlSlot2.SuspendLayout();
+            pnlSlot3.SuspendLayout();
+
+            pnlSlot1.Controls.Clear();
+            pnlSlot2.Controls.Clear();
+            pnlSlot3.Controls.Clear();
 
             if (_player.Hand.Count > 0)
             {
@@ -796,15 +805,12 @@ namespace TimeOrder
             {
                 DisplaySmallCard(_player.Hand[2], pnlSlot3);
             }
+
+            pnlSlot1.ResumeLayout();
+            pnlSlot2.ResumeLayout();
+            pnlSlot3.ResumeLayout();
         }
 
-        private void ClearSlot(Panel slot)
-        {
-            while (slot.Controls.Count > 0)
-            {
-                slot.Controls[0].Dispose();
-            }
-        }
         private void UpdatePlayerLabels()
         {
             pnlPlayer1.Text = _game.Players[0].Name;

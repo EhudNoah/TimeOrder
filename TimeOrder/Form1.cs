@@ -18,13 +18,11 @@ namespace TimeOrder
             if (rbServer.Checked)
             {
                 txtIpAddress.Text = "";
-                txtIpAddress.ReadOnly = true;
                 txtIpAddress.Text = "127.0.0.1";
                 btnJoin.Text = "Start";
             }
             else
             {
-                txtIpAddress.ReadOnly = false;
                 btnJoin.Text = "Join";
                 txtIpAddress.Text = "   .   .   .   ";
             }

@@ -34,6 +34,8 @@ namespace TimeOrder
         {
             InitializeComponent();
 
+            Text += " - " + username;
+
             _client = new Client<Game>(ip_address, port);
 
             if (isServer)
