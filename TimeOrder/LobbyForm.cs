@@ -1,4 +1,4 @@
-﻿using Interop_Test.Interop;
+﻿using Interop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

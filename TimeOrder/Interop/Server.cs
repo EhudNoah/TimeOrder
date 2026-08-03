@@ -1,33 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 
-namespace Interop_Test.Interop
+namespace Interop
 {
-   public class Server<T>(string ipAddress, ushort port) : IDisposable where T : new()
+   public sealed class Server<T>(string ipAddress, ushort port) : IDisposable where T : new()
    {
-      public string IpAddress { get; private set; } = ipAddress;
+      public static string IpAddress
+         => Dns.GetHostAddresses(Dns.GetHostName()).FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork)?.ToString() ?? string.Empty;
+
       public ushort Port { get; private set; } = port;
 
-      private HttpListener? _listener;
-      private CancellationTokenSource? _cts;
+      public string Url => $"tcp://{ipAddress}:{Port}/";
 
-      private T _state;
+      private TcpListener? _listener;
+      private CancellationTokenSource? _cts;
+      private readonly object _stateLock = new();
+      private T _state = new();
 
       public async void Run()
       {
-         string prefix = $"http://{IpAddress}:{Port}/receive/";
-
-         _listener = new HttpListener();
-         _listener.Prefixes.Add(prefix);
+         _listener = new TcpListener(IPAddress.Any, Port);
          _listener.Start();
 
          _cts = new CancellationTokenSource();
-
-         _state = new();
 
          await Task.Run(() => _runListenerAsync(_cts.Token));
       }
@@ -38,56 +35,79 @@ namespace Interop_Test.Interop
          {
             try
             {
-               var context = await _listener!.GetContextAsync();
-               await _handleRequestAsync(context);
+               TcpClient client = await _listener!.AcceptTcpClientAsync(ct);
+               _ = _handleClientAsync(client, ct);
             }
-            catch (HttpListenerException) when (ct.IsCancellationRequested)
+            catch (OperationCanceledException) when (ct.IsCancellationRequested)
+            {
+               break;
+            }
+            catch (ObjectDisposedException) when (ct.IsCancellationRequested)
+            {
+               break;
+            }
+            catch (SocketException) when (ct.IsCancellationRequested)
             {
                break;
             }
             catch (Exception ex)
             {
-               Debug.WriteLine($"Listener error: {ex}");
+               throw new ListenerErrorExeption(ex);
             }
          }
       }
 
-      private async Task _handleRequestAsync(HttpListenerContext context)
+      private async Task _handleClientAsync(TcpClient client, CancellationToken ct)
       {
-         var request = context.Request;
-         var response = context.Response;
-
-         if (request.HttpMethod != "POST")
+         try
          {
-            response.StatusCode = 405;
-            response.Close();
-            return;
-         }
-
-         using var reader = new StreamReader(request.InputStream, request.ContentEncoding);
-         string json = await reader.ReadToEndAsync();
-
-         if (!string.IsNullOrEmpty(json))
-         {
-            var state = JsonSerializer.Deserialize<T>(json);
-
-            if (state is not null)
+            using (client)
             {
-               _state = state;
+               await using NetworkStream stream = client.GetStream();
+               using var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, leaveOpen: true);
+               using var writer = new StreamWriter(stream, Encoding.UTF8, leaveOpen: true) { AutoFlush = true };
+
+               string? json = await reader.ReadLineAsync(ct);
+
+               if (!string.IsNullOrEmpty(json))
+               {
+                  var state = JsonSerializer.Deserialize<T>(json);
+
+                  if (state is not null)
+                  {
+                     lock (_stateLock)
+                     {
+                        _state = state;
+                     }
+                  }
+               }
+
+               T snapshot;
+               lock (_stateLock)
+               {
+                  snapshot = _state;
+               }
+
+               await writer.WriteLineAsync(JsonSerializer.Serialize(snapshot));
             }
          }
-
-         byte[] buffer = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(_state));
-         response.ContentLength64 = buffer.Length;
-         await response.OutputStream.WriteAsync(buffer);
-         response.Close();
+         catch (OperationCanceledException) when (ct.IsCancellationRequested)
+         {
+         }
+         catch (IOException)
+         {
+         }
+         catch (SocketException)
+         {
+         }
       }
 
       public void Dispose()
       {
          _cts?.Cancel();
          _listener?.Stop();
-         _listener?.Close();
       }
    }
+
+   public class ListenerErrorExeption(Exception ex) : Exception(ex.Message, ex) { }
 }

@@ -1,3 +1,5 @@
+using Interop;
+
 namespace TimeOrder
 {
     public partial class Form1 : Form
@@ -18,13 +20,16 @@ namespace TimeOrder
             if (rbServer.Checked)
             {
                 txtIpAddress.Text = "";
-                txtIpAddress.Text = "127.0.0.1";
+                txtIpAddress.Text = Server<Game>.IpAddress;
+
+               // txtIpAddress.ReadOnly = true;
                 btnJoin.Text = "Start";
             }
             else
             {
                 btnJoin.Text = "Join";
                 txtIpAddress.Text = "   .   .   .   ";
+                txtIpAddress.ReadOnly = false;
             }
         }
 
