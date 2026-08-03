@@ -26,8 +26,6 @@ namespace TimeOrder
         private bool dragging;
 
         private PictureBox pictureCardPreview;
-
-
         public Gameplay(Game game, string username, Server<Game>? server, Client<Game> client)
         {
             InitializeComponent();
@@ -135,7 +133,6 @@ namespace TimeOrder
         {
             ResizeBottomSlots();
         }
-
         private void ResizeBottomSlots()
         {
             int slotWidth = pnlBottom.ClientSize.Width * 12 / 100;
@@ -162,7 +159,6 @@ namespace TimeOrder
         {
             ResizePlayerLabels();
         }
-
         private void ResizePlayerLabels()
         {
             int sectionWidth = panel1.ClientSize.Width / 4;
@@ -205,7 +201,6 @@ namespace TimeOrder
                 topPosition
             );
         }
-
         private void PositionPlayerLabels(Label playerLabel, Label cardsLabel, int sectionLeft, int sectionWidth, int spaceBetweenLabels, int topPosition)
         {
             int totalWidth = playerLabel.Width
@@ -221,7 +216,6 @@ namespace TimeOrder
             cardsLabel.Left = playerLabel.Right + spaceBetweenLabels;
             cardsLabel.Top = topPosition + 2;
         }
-
         private async void _timer_Tick(object sender, EventArgs e)
         {
             _timer.Stop();
@@ -245,7 +239,6 @@ namespace TimeOrder
 
             _timer.Start();
         }
-
         public void DisplaySmallCard(Card card, Panel slot)
         {
             Panel panelCard = new Panel();
@@ -362,14 +355,12 @@ namespace TimeOrder
 
             slot.Controls.Add(panelCard);
         }
-
         private void AddDragEvents(Control control)
         {
             control.MouseDown += CardMouseDown;
             control.MouseMove += CardMouseMove;
             control.MouseUp += CardMouseUp;
         }
-
         private void CardMouseDown(object sender, MouseEventArgs e)
         {
             if (_player.Status != Status.Active
@@ -459,8 +450,6 @@ namespace TimeOrder
             PositionCommentLabel();
             lblComment.BringToFront();
         }
-
-
         private void CardMouseMove(object sender, MouseEventArgs e)
         {
             if (dragging == false)
@@ -503,8 +492,6 @@ namespace TimeOrder
             PositionCommentLabel();
             lblComment.BringToFront();
         }
-
-
         private void CardMouseUp(object sender, MouseEventArgs e)
         {
             Point cardLocation = ((Control)sender).Location;
@@ -590,7 +577,6 @@ namespace TimeOrder
 
             _timer.Start();
         }
-
         private void _drawGamePlan()
         {
             timePlan.SuspendLayout();
@@ -639,8 +625,6 @@ namespace TimeOrder
 
             timePlan.ResumeLayout();
         }
-
-
         private void TextBoxCardMouseEnter(object sender, EventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -692,8 +676,6 @@ namespace TimeOrder
             pictureCardPreview.Visible = true;
             pictureCardPreview.BringToFront();
         }
-
-
         private void TextBoxCardMouseLeave(object sender, EventArgs e)
         {
             if (pictureCardPreview == null)
@@ -703,8 +685,6 @@ namespace TimeOrder
 
             pictureCardPreview.Visible = false;
         }
-
-
         private void AddCardToTimeline(Card card, bool checkOrder = true)
         {
             if (_timelineCards.Contains(card))
@@ -726,8 +706,6 @@ namespace TimeOrder
 
             _timelineCards.Add(card);
         }
-
-
         public bool CheckOrder(Card card)
         {
             int cardYear = card.Date_Birth;
@@ -780,7 +758,6 @@ namespace TimeOrder
             Console.WriteLine("========================================");
             Console.WriteLine();
         }
-
         public void DisplayCurrentPlayerHand()
         {
             pnlSlot1.SuspendLayout();
@@ -810,7 +787,6 @@ namespace TimeOrder
             pnlSlot2.ResumeLayout();
             pnlSlot3.ResumeLayout();
         }
-
         private void UpdatePlayerLabels()
         {
             pnlPlayer1.Text = _game.Players[0].Name;
