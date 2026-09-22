@@ -40,8 +40,8 @@ namespace TimeOrder
 
             if (isServer)
             {
-                _server = new Server<Game>(ip_address, port);
-                _server.Run();
+                _server = new Server<Game>(port);
+                _ = _server.RunAsync();
             }
 
             _timer = new Timer();
