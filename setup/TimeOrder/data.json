@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "Name": "Albert Einstein",
+    "Type": "Person",
+    "Date_Birth": 1879,
+    "Date_Death": 1955,
+    "Description": "Albert Einstein est un physicien allemand connu pour avoir developpe la theorie de la relativite. Il publie la theorie de la relativite restreinte en 1905, puis la theorie de la relativite generale en 1915.",
+    "ImagePath": "D:\\.NET C#\\Images\\Albert_Einstein.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 2,
+    "Name": "Isaac Newton",
+    "Type": "Person",
+    "Date_Birth": 1643,
+    "Date_Death": 1727,
+    "Description": "Isaac Newton est un mathematicien, physicien et astronome anglais. Il est notamment connu pour ses travaux sur la gravitation universelle, les lois du mouvement et le calcul infinitesimal.",
+    "ImagePath": "D:\\.NET C#\\Images\\Isaac_Newton.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 3,
+    "Name": "Rene Descartes",
+    "Type": "Person",
+    "Date_Birth": 1596,
+    "Date_Death": 1650,
+    "Description": "Rene Descartes est un philosophe, mathematicien et scientifique francais. Il est notamment connu pour la phrase Je pense, donc je suis et pour ses contributions a la geometrie analytique.",
+    "ImagePath": "D:\\.NET C#\\Images\\Rene_Descartes.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 4,
+    "Name": "Marie Curie",
+    "Type": "Person",
+    "Date_Birth": 1867,
+    "Date_Death": 1934,
+    "Description": "Marie Curie est une physicienne et chimiste d'origine polonaise. Elle mene d'importantes recherches sur la radioactivite et recoit deux prix Nobel dans deux disciplines scientifiques differentes.",
+    "ImagePath": "D:\\.NET C#\\Images\\Marie_Curie.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 5,
+    "Name": "Alan Turing",
+    "Type": "Person",
+    "Date_Birth": 1912,
+    "Date_Death": 1954,
+    "Description": "Alan Turing est un mathematicien et cryptologue britannique considere comme l'un des fondateurs de l'informatique. Pendant la Seconde Guerre mondiale, il participe au dechiffrement des messages allemands codes par la machine Enigma.",
+    "ImagePath": "D:\\.NET C#\\Images\\Alan_Turing.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 6,
+    "Name": "Nikola Tesla",
+    "Type": "Person",
+    "Date_Birth": 1856,
+    "Date_Death": 1943,
+    "Description": "Nikola Tesla est un inventeur et ingenieur connu pour ses travaux sur l'electricite et le courant alternatif. Ses inventions ont contribue au developpement des systemes modernes de production et de distribution electrique.",
+    "ImagePath": "D:\\.NET C#\\Images\\Nikola_Tesla.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 7,
+    "Name": "Ada Lovelace",
+    "Type": "Person",
+    "Date_Birth": 1815,
+    "Date_Death": 1852,
+    "Description": "Ada Lovelace est une mathematicienne britannique connue pour ses travaux sur la machine analytique de Charles Babbage. Elle est souvent consideree comme l'auteure du premier programme informatique.",
+    "ImagePath": "D:\\.NET C#\\Images\\Ada_Lovelace.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 8,
+    "Name": "Charles Darwin",
+    "Type": "Person",
+    "Date_Birth": 1809,
+    "Date_Death": 1882,
+    "Description": "Charles Darwin est un naturaliste britannique connu pour sa theorie de l'evolution des especes par selection naturelle. Il presente notamment ses recherches dans son ouvrage De l'origine des especes.",
+    "ImagePath": "D:\\.NET C#\\Images\\Charles_Darwin,_English_naturlist,_colored.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 9,
+    "Name": "Louis Pasteur",
+    "Type": "Person",
+    "Date_Birth": 1822,
+    "Date_Death": 1895,
+    "Description": "Louis Pasteur est un scientifique francais connu pour ses recherches en microbiologie. Il developpe la pasteurisation et participe a la creation de plusieurs vaccins, notamment celui contre la rage.",
+    "ImagePath": "D:\\.NET C#\\Images\\Louis_Pasteur.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 10,
+    "Name": "Galilee",
+    "Type": "Person",
+    "Date_Birth": 1564,
+    "Date_Death": 1642,
+    "Description": "Galilee est un astronome, physicien et mathematicien italien. Grace a l'amelioration de la lunette astronomique, il realise plusieurs observations qui soutiennent l'idee que la Terre tourne autour du Soleil.",
+    "ImagePath": "D:\\.NET C#\\Images\\Justus_Sustermans_-_Portrait_of_Galileo_Galilei,_1636.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 11,
+    "Name": "Leonard de Vinci",
+    "Type": "Person",
+    "Date_Birth": 1452,
+    "Date_Death": 1519,
+    "Description": "Leonard de Vinci est un artiste, inventeur et scientifique italien de la Renaissance. Il est notamment l'auteur de La Joconde et de La Cene, ainsi que de nombreux dessins et projets d'inventions.",
+    "ImagePath": "D:\\.NET C#\\Images\\Leonard_de.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 12,
+    "Name": "Nelson Mandela",
+    "Type": "Person",
+    "Date_Birth": 1918,
+    "Date_Death": 2013,
+    "Description": "Nelson Mandela est un homme politique sud-africain qui lutte contre le regime de l'apartheid. Apres vingt-sept annees d'emprisonnement, il devient president de l'Afrique du Sud en 1994.",
+    "ImagePath": "D:\\.NET C#\\Images\\Nelson_Mandela_1994.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 13,
+    "Name": "Jeanne d'Arc",
+    "Type": "Person",
+    "Date_Birth": 1412,
+    "Date_Death": 1431,
+    "Description": "Jeanne d'Arc est une figure importante de l'histoire de France pendant la guerre de Cent Ans. Elle aide les troupes francaises a liberer Orleans et participe au sacre de Charles VII avant d'etre capturee et executee en 1431.",
+    "ImagePath": "D:\\.NET C#\\Images\\jeanne-arc-sacre-charlesvii.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 14,
+    "Name": "Johannes Gutenberg",
+    "Type": "Person",
+    "Date_Birth": 1400,
+    "Date_Death": 1468,
+    "Description": "Johannes Gutenberg est un imprimeur allemand considere comme l'un des inventeurs de l'imprimerie a caracteres mobiles en Europe. Son invention permet de produire des livres plus rapidement et contribue a la diffusion des connaissances.",
+    "ImagePath": "D:\\.NET C#\\Images\\Gutenberg.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 15,
+    "Name": "Christophe Colomb",
+    "Type": "Person",
+    "Date_Birth": 1451,
+    "Date_Death": 1506,
+    "Description": "Christophe Colomb est un navigateur originaire de Genes ayant voyage au service de la monarchie espagnole. En 1492, son expedition traverse l'ocean Atlantique et atteint les Caraibes, ouvrant une periode durable de contacts entre l'Europe et les Ameriques.",
+    "ImagePath": "D:\\.NET C#\\Images\\Ridolfo_del_Ghirlandaio_-_Ritratto_di_Cristoforo_Colombo_(1520).jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 16,
+    "Name": "William Shakespeare",
+    "Type": "Person",
+    "Date_Birth": 1564,
+    "Date_Death": 1616,
+    "Description": "William Shakespeare est un dramaturge, poete et acteur anglais. Il est l'auteur de nombreuses pieces celebres comme Romeo et Juliette, Hamlet, Macbeth et Othello.",
+    "ImagePath": "D:\\.NET C#\\Images\\Shakespeare.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 17,
+    "Name": "Wolfgang Amadeus Mozart",
+    "Type": "Person",
+    "Date_Birth": 1756,
+    "Date_Death": 1791,
+    "Description": "Wolfgang Amadeus Mozart est un compositeur autrichien considere comme l'un des plus grands musiciens de la periode classique. Enfant prodige, il compose des centaines d'oeuvres, dont des symphonies, des concertos et des operas.",
+    "ImagePath": "D:\\.NET C#\\Images\\Wolfgang-amadeus-mozart_1.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 18,
+    "Name": "Napoleon Bonaparte",
+    "Type": "Person",
+    "Date_Birth": 1769,
+    "Date_Death": 1821,
+    "Description": "Napoleon Bonaparte est un militaire et homme d'Etat francais devenu empereur des Francais en 1804. Il mene de nombreuses campagnes militaires en Europe et met en place plusieurs reformes, dont le Code civil.",
+    "ImagePath": "D:\\.NET C#\\Images\\Napoleon_Bonaparte.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 19,
+    "Name": "Abraham Lincoln",
+    "Type": "Person",
+    "Date_Birth": 1809,
+    "Date_Death": 1865,
+    "Description": "Abraham Lincoln est le seizieme president des Etats-Unis. Il dirige le pays pendant la guerre de Secession, contribue a l'abolition de l'esclavage et est assassine en 1865.",
+    "ImagePath": "D:\\.NET C#\\Images\\Abraham_Lincoln_O-77_matte_collodion_print.jpg",
+    "IsDateVisible": false
+  },
+  {
+    "id": 20,
+    "Name": "Martin Luther King Jr.",
+    "Type": "Person",
+    "Date_Birth": 1929,
+    "Date_Death": 1968,
+    "Description": "Martin Luther King Jr. est un pasteur et militant americain engage dans la lutte contre la segregation raciale. Il defend les droits civiques par des actions non violentes et prononce en 1963 son celebre discours I Have a Dream.",
+    "ImagePath": "D:\\.NET C#\\Images\\Martin_Luther_King,_Jr.jpg",
+    "IsDateVisible": false
+  }
+]
